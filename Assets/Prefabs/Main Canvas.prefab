@@ -1651,47 +1651,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a59a990858ab9c4fa4f51a86c28f32e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Title_Screen_Database: {fileID: 11400000, guid: 569a69590a0041846a25c3ba28c403b0, type: 2}
-  Ghost_Avoid_Light_Database: {fileID: 11400000, guid: 894d7e79a73f2b049b0a03c8bb533d5f, type: 2}
-  Shoot_The_Target_Database: {fileID: 11400000, guid: f58d3c4a7bcb56a43a5a13946e880f0a, type: 2}
-  Game_Over_Database: {fileID: 11400000, guid: 97204c54eebff344eac698bb4f8e42e2, type: 2}
-  instructionAppear: 0
-  instructionDisappear: 0
-  hintAppear: 0
-  hintDisappear: 0
-  approachScreen: 0
-  backToUI: 0
-  resultUI: 0
-  toBlackUI: 0
+  TitleScreen_Database: {fileID: 11400000, guid: 569a69590a0041846a25c3ba28c403b0, type: 2}
+  GhostAvoidLight_Database: {fileID: 11400000, guid: 894d7e79a73f2b049b0a03c8bb533d5f, type: 2}
+  ShootTheTarget_Database: {fileID: 11400000, guid: f58d3c4a7bcb56a43a5a13946e880f0a, type: 2}
+  GameOver_Database: {fileID: 11400000, guid: 97204c54eebff344eac698bb4f8e42e2, type: 2}
   currentInstructionImage: {fileID: 0}
   currentInstruction: 
   currentHint: 
   instruction: {fileID: 8305535282150292658}
   radialProgressBar: {fileID: 6800855947954897695}
   hintText: {fileID: 282023008389567289}
+  blackUI: {fileID: 7674730013183132670}
   lifeUI:
   - {fileID: 6551434076431756658}
   - {fileID: 1359793113455551146}
   - {fileID: 3528168497492501327}
   - {fileID: 2704477456742152960}
-  blackUI: {fileID: 7674730013183132670}
-  lifeUIAlive: {fileID: 21300000, guid: a0d00e42435a47f4dad800420628ebbb, type: 3}
   lifeUIDead: {fileID: 21300000, guid: 018abdba5c46ba24d857e4269761a080, type: 3}
-  instructionScaleDuration: 0.15
-  instructionDelay: 1.5
-  hintScaleDuration: 0.15
-  hintDelay: 1
-  UIScaleDuration: 0.2
-  UITransparentDuration: 0.2
-  PreBackToUIDelay: 2
-  PostBackToUIDelay: 3.5
-  BlackUITransparentDuration: 2
   audioSource: {fileID: 0}
   IntermissionSoundtrack: {fileID: 8300000, guid: 8429eb2622b02aa4ca28d7ab13a95bdf, type: 3}
   successSoundtrack: {fileID: 8300000, guid: fb71ddd1dcd2c1a41879837e1b14ae89, type: 3}
   failedSoundtrack: {fileID: 8300000, guid: c33af724b4684b84ca73c7328f233a4f, type: 3}
   completeSoundtrack: {fileID: 8300000, guid: bf4b9ceea5b94b24c9f0752767ccfacd, type: 3}
   gameOverSoundtrack: {fileID: 8300000, guid: 93a69f2e831e7e04db55a51fc7701a93, type: 3}
+  LandmarkInfo: {fileID: 0}
 --- !u!82 &8394159270742449909
 AudioSource:
   m_ObjectHideFlags: 0

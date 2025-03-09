@@ -7,9 +7,17 @@ using UnityEngine.SceneManagement;
 public class HintTextChange : MonoBehaviour
 {
     private UIManager manager;
-    void Update()
+    private TMP_Text hintTextComponent;
+
+    void Start()
     {
         manager = GameObject.Find("UI Objects").GetComponent<UIManager>();
-        GetComponent<TMP_Text>().text = manager.currentHint;
+        hintTextComponent = GetComponent<TMP_Text>();
+    }
+    
+    void Update()
+    {
+        
+        hintTextComponent.text = manager.currentHint;
     }
 }

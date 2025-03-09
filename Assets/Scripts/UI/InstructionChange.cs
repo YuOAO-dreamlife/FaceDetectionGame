@@ -9,11 +9,17 @@ public class InstructionChange : MonoBehaviour
 {
     private UIManager manager;
     [SerializeField] private TMP_Text instructionText;
+    private Image instructionImageComponent;
+
+    void Start()
+    {
+        manager = GameObject.Find("UI Objects").GetComponent<UIManager>();
+        instructionImageComponent = GetComponent<Image>();
+    }
 
     void Update()
     {
-        manager = GameObject.Find("UI Objects").GetComponent<UIManager>();
-        GetComponent<Image>().sprite = manager.currentInstructionImage;
+        instructionImageComponent.sprite = manager.currentInstructionImage;
         instructionText.text = manager.currentInstruction;
     }
 }

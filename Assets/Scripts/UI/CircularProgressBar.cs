@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Mediapipe.Unity.Sample.FaceLandmarkDetection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,41 +8,65 @@ public class CircularProgressBar : MonoBehaviour
 {
     private FaceLandmarkerRunner LandmarkInfo;
     private GameManager manager;
+    private Image progressImage;
     private bool isActive = false;
     [SerializeField] private float indicatorTimer;
     private float maxIndicatorTimer = 3;
 
     void Start()
     {
-        if (SceneManager.GetActiveScene().name != "Title_Screen") 
+        if (SceneManager.GetActiveScene().name != "TitleScreen") 
         {
             gameObject.SetActive(false);
         }
+
         LandmarkInfo = GameObject.Find("Solution").GetComponent<FaceLandmarkerRunner>();
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        progressImage = GetComponent<Image>();
+
+        LandmarkInfo.OnFaceAppear += HandleFaceDetectionChanged;
     }
 
-    void Update()
+    void OnDestroy()
     {
-        if (LandmarkInfo.noFaceExist) 
+        if (LandmarkInfo != null)
+        {
+            LandmarkInfo.OnFaceAppear -= HandleFaceDetectionChanged;
+        }
+    }
+
+    void HandleFaceDetectionChanged(bool noFaceExist)
+    {
+        if (noFaceExist)
         {
             indicatorTimer = 0;
             isActive = false;
+            progressImage.fillAmount = 0;
         }
-        else 
+        else
         {
-            isActive = true;
+            if (!isActive)
+            {
+                isActive = true;
+                StartCoroutine(UpdateProgress());
+            }
         }
-        
-        if (isActive)
+    }
+
+    IEnumerator UpdateProgress()
+    {
+        while (isActive)
         {
             indicatorTimer += Time.deltaTime;
-            GetComponent<Image>().fillAmount = indicatorTimer / maxIndicatorTimer;
+            progressImage.fillAmount = indicatorTimer / maxIndicatorTimer;
 
             if (indicatorTimer >= maxIndicatorTimer)
             {
                 manager.changeScene = true;
+                yield break;
             }
+
+            yield return null;
         }
     }
 }

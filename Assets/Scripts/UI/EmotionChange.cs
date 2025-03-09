@@ -25,11 +25,11 @@ public class EmotionChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (manager.gameEnd && !(uIManager.currentState == UIManager.UIState.UIResult))
+        if (manager.gameEnd && !(uIManager.currentState is UIResultState))
         {
             defaultEmotions[defaultRandom].SetActive(true);
         }
-        else if (uIManager.currentState == UIManager.UIState.UIResult)
+        else if (uIManager.currentState is UIResultState)
         {
             defaultEmotions[defaultRandom].SetActive(false);
             if (manager.failed) 

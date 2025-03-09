@@ -17,11 +17,11 @@ public class LevelTextChange : MonoBehaviour
     {
         switch (SceneManager.GetActiveScene().name)
         {
-            case "Title_Screen":
+            case "TitleScreen":
                 GetComponent<TMP_Text>().text = "Face the camera";
                 break;
 
-            case "Game_Over":
+            case "GameOver":
                 GetComponent<TMP_Text>().text = "Result\nLevel " + manager.countOfScenesHasLoaded;
                 break;
 

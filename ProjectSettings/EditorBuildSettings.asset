@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Title_Screen.unity
+    path: Assets/Scenes/TitleScreen.unity
     guid: 89b1e5b07961ba044af87cc618463773
   - enabled: 1
-    path: Assets/Scenes/Ghost_Avoid_Light.unity
+    path: Assets/Scenes/GhostAvoidLight.unity
     guid: 313b5efb4c347514695406455663bda2
   - enabled: 1
-    path: Assets/Scenes/Shoot_The_Target.unity
+    path: Assets/Scenes/ShootTheTarget.unity
     guid: 79a6c153ff967864594b10859b4c581d
   - enabled: 1
-    path: Assets/Scenes/Game_Over.unity
+    path: Assets/Scenes/GameOver.unity
     guid: 03323a90cb09c564690a4fc988af810c
   m_configObjects: {}

@@ -6,21 +6,23 @@ using UnityEngine;
 public class LeftTimeChange : MonoBehaviour
 {
     private GameManager manager;
+    private TMP_Text timeText;
 
     void Start()
     {
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        timeText = GetComponent<TMP_Text>();
     }
 
     void Update()
     {
         if (manager.leftTime <= 3)
         {
-            GetComponent<TMP_Text>().text = "The left time of the mission... " + manager.leftTime.ToString() + "...";
+            timeText.text = "The left time of the mission... " + manager.leftTime.ToString() + "...";
         }
         else
         {
-            GetComponent<TMP_Text>().text = "";
+            timeText.text = "";
         }
     }
 }
