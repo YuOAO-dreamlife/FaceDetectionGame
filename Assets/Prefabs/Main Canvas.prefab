@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7127132237706620744}
   - component: {fileID: 255049674798321856}
   - component: {fileID: 6154686996951839868}
-  - component: {fileID: 3327127722571888860}
   m_Layer: 5
   m_Name: HintText
   m_TagString: Untagged
@@ -135,18 +134,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &3327127722571888860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282023008389567289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 855feee4433c9ff489fa69aedb331d4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &435580096887924689
 GameObject:
   m_ObjectHideFlags: 0
@@ -1651,16 +1638,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a59a990858ab9c4fa4f51a86c28f32e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TitleScreen_Database: {fileID: 11400000, guid: 569a69590a0041846a25c3ba28c403b0, type: 2}
-  GhostAvoidLight_Database: {fileID: 11400000, guid: 894d7e79a73f2b049b0a03c8bb533d5f, type: 2}
-  ShootTheTarget_Database: {fileID: 11400000, guid: f58d3c4a7bcb56a43a5a13946e880f0a, type: 2}
-  GameOver_Database: {fileID: 11400000, guid: 97204c54eebff344eac698bb4f8e42e2, type: 2}
-  currentInstructionImage: {fileID: 0}
-  currentInstruction: 
-  currentHint: 
+  audioSource: {fileID: 8394159270742449909}
+  LandmarkInfo: {fileID: 0}
+  currentData: {fileID: 0}
   instruction: {fileID: 8305535282150292658}
-  radialProgressBar: {fileID: 6800855947954897695}
   hintText: {fileID: 282023008389567289}
+  levelText: {fileID: 5128124845786445475}
+  radialProgressBar: {fileID: 6800855947954897695}
   blackUI: {fileID: 7674730013183132670}
   lifeUI:
   - {fileID: 6551434076431756658}
@@ -1668,13 +1652,6 @@ MonoBehaviour:
   - {fileID: 3528168497492501327}
   - {fileID: 2704477456742152960}
   lifeUIDead: {fileID: 21300000, guid: 018abdba5c46ba24d857e4269761a080, type: 3}
-  audioSource: {fileID: 0}
-  IntermissionSoundtrack: {fileID: 8300000, guid: 8429eb2622b02aa4ca28d7ab13a95bdf, type: 3}
-  successSoundtrack: {fileID: 8300000, guid: fb71ddd1dcd2c1a41879837e1b14ae89, type: 3}
-  failedSoundtrack: {fileID: 8300000, guid: c33af724b4684b84ca73c7328f233a4f, type: 3}
-  completeSoundtrack: {fileID: 8300000, guid: bf4b9ceea5b94b24c9f0752767ccfacd, type: 3}
-  gameOverSoundtrack: {fileID: 8300000, guid: 93a69f2e831e7e04db55a51fc7701a93, type: 3}
-  LandmarkInfo: {fileID: 0}
 --- !u!82 &8394159270742449909
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2149,7 +2126,6 @@ GameObject:
   - component: {fileID: 1248212866776486268}
   - component: {fileID: 2404971503214970870}
   - component: {fileID: 1553920455698891412}
-  - component: {fileID: 4828928296080804946}
   m_Layer: 5
   m_Name: LaptopText
   m_TagString: Untagged
@@ -2273,18 +2249,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4828928296080804946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5128124845786445475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd77a96707a2df419df32e0b353a423, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5360594053449845501
 GameObject:
   m_ObjectHideFlags: 0
@@ -3560,7 +3524,6 @@ GameObject:
   - component: {fileID: 1000477340475496794}
   - component: {fileID: 5689669261042982476}
   - component: {fileID: 2834854848180204687}
-  - component: {fileID: 6327337827043651259}
   m_Layer: 5
   m_Name: Instruction
   m_TagString: Untagged
@@ -3627,19 +3590,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6327337827043651259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8305535282150292658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92786d7f35268fb4e9a41c04e50526f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  instructionText: {fileID: 737497500350142704}
 --- !u!1 &8645682966848575315
 GameObject:
   m_ObjectHideFlags: 0

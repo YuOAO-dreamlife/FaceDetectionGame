@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9611ab84fa2a734a98cb67f8f323c15, type: 3}
-  m_Name: Shoot_The_Target
+  m_Name: ShootTheTarget
   m_EditorClassIdentifier: 
-  instructionImage: {fileID: 21300000, guid: 8dcbbfd6c9c14e548a19e741aff94945, type: 3}
-  instruction: "\u93E1\u982D\u7BC4\u570D\u5167\uFF0C\u79FB\u52D5\u81C9\u90E8\u4E26\u7728\u773C"
-  hint: "\u64CA\u7834\u6240\u6709\n\u6728\u7BB1&\u74F6\u5B50!"
-  gameTime: 15
+  InstructionImage: {fileID: 21300000, guid: 8dcbbfd6c9c14e548a19e741aff94945, type: 3}
+  InstructionText: "\u93E1\u982D\u7BC4\u570D\u5167\uFF0C\u79FB\u52D5\u81C9\u90E8\u4E26\u7728\u773C"
+  HintText: "\u64CA\u7834\u6240\u6709\n\u6728\u7BB1&\u74F6\u5B50!"

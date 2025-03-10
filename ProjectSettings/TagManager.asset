@@ -5,10 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Global Resource
-  - KeepAliveInTime
-  - TimeLimitMission
-  - Target
   - Light
+  - Target
   layers:
   - Default
   - TransparentFX

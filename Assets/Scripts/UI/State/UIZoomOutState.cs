@@ -6,6 +6,8 @@ public class UIZoomOutState : UIStateBase
     [SerializeField] private float PreBackToUIDelay;
     [SerializeField] private float UIScaleDuration = 0.2f;
     [SerializeField] private float UITransparentDuration = 0.2f;
+    private AudioClip successSoundtrack = Resources.Load<AudioClip>("Soundtracks/Success");
+    private AudioClip failedSoundtrack = Resources.Load<AudioClip>("Soundtracks/Failed");
     public UIZoomOutState(UIManager manager) : base(manager) {}
 
     public override void Enter()
@@ -33,11 +35,11 @@ public class UIZoomOutState : UIStateBase
 
         if (GameManager.Instance.failed) 
         {
-            manager.audioSource.PlayOneShot(manager.failedSoundtrack);
+            manager.audioSource.PlayOneShot(failedSoundtrack);
         }
         else 
         {
-            manager.audioSource.PlayOneShot(manager.successSoundtrack);
+            manager.audioSource.PlayOneShot(successSoundtrack);
         }
 
         yield return FadeObject(manager.gameObject, 0.0f, 1.0f, UITransparentDuration);

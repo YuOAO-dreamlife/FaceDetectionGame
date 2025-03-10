@@ -1,84 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using Mediapipe.Unity.Sample.FaceLandmarkDetection;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("UI State")]
-    public UIStateBase currentState;
+    [Header("Essential elements")]
+    public AudioSource audioSource;
+    public FaceLandmarkerRunner LandmarkInfo;
 
-    [Header("Database")]
-    public Database TitleScreen_Database;
-    public Database GhostAvoidLight_Database;
-    public Database ShootTheTarget_Database;
-    public Database GameOver_Database;
+    [Header("UI Status")]
+    public UIStateBase currentState;
+    [SerializeField] private UIData currentData;
 
     [Header("UI Elements")]
-    public Sprite currentInstructionImage;
-    public string currentInstruction;
-    public string currentHint;
     public GameObject instruction;
-    public GameObject radialProgressBar;
     public GameObject hintText;
+    public GameObject levelText;
+
+
+    public GameObject radialProgressBar;
     public GameObject blackUI;
     public GameObject[] lifeUI;
     public Sprite lifeUIDead;
 
-    [Header("UI Audio")]
-    public AudioSource audioSource;
-    public AudioClip IntermissionSoundtrack;
-    public AudioClip successSoundtrack;
-    public AudioClip failedSoundtrack;
-    public AudioClip completeSoundtrack;
-    public AudioClip gameOverSoundtrack;
-
-    private GameManager manager;
-    public FaceLandmarkerRunner LandmarkInfo;
-
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-
-        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         LandmarkInfo = GameObject.Find("Solution").GetComponent<FaceLandmarkerRunner>();
+        currentData = Resources.Load<UIData>("Database/UIData/" + SceneManager.GetActiveScene().name);
 
-        for (int index = 0; index < manager.originalLifeCount - manager.lifeCount; index++)
+        for (int index = 0; index < GameManager.Instance.originalLifeCount - GameManager.Instance.lifeCount; index++)
         {
             lifeUI[index].GetComponent<Image>().sprite = lifeUIDead;
         }
 
-        SettingCurrentDatabase();
+        InitUIElements();
         SettingUIState();
     }
 
-    void LoadDatabase(Database database)
+    void InitUIElements()
     {
-        currentInstructionImage = database.instructionImage;
-        currentInstruction = database.instruction;
-        currentHint = database.hint;
-    }
-
-    void SettingCurrentDatabase()
-    {
+        instruction.GetComponent<Image>().sprite = currentData.InstructionImage;
+        instruction.GetComponentInChildren<TMP_Text>().text = currentData.InstructionText;
+        hintText.GetComponent<TMP_Text>().text = currentData.HintText;
         switch (SceneManager.GetActiveScene().name)
         {
             case "TitleScreen":
-                LoadDatabase(TitleScreen_Database);
-                break;
-
-            case "GhostAvoidLight":
-                LoadDatabase(GhostAvoidLight_Database);
-                break;
-
-            case "ShootTheTarget":
-                LoadDatabase(ShootTheTarget_Database);
+                levelText.GetComponent<TMP_Text>().text = "Face the camera";
                 break;
 
             case "GameOver":
-                LoadDatabase(GameOver_Database);
+                levelText.GetComponent<TMP_Text>().text = "Result\nLevel " + GameManager.Instance.countOfScenesHasLoaded;
+                break;
+
+            default:
+                levelText.GetComponent<TMP_Text>().text = "Level " + GameManager.Instance.countOfScenesHasLoaded;
                 break;
         }
     }

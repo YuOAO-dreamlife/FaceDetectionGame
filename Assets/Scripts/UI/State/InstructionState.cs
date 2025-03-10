@@ -5,6 +5,7 @@ public class InstructionState : UIStateBase
 {
     [SerializeField] private float instructionScaleDuration = 0.15f;
     [SerializeField] private float instructionDelay = 1.5f;
+    private AudioClip intermissionSoundtrack = Resources.Load<AudioClip>("Soundtracks/Default");
     public InstructionState(UIManager manager) : base(manager) {}
 
     public override void Enter()
@@ -14,7 +15,7 @@ public class InstructionState : UIStateBase
 
     IEnumerator ShowInstruction()
     {
-        manager.audioSource.PlayOneShot(manager.IntermissionSoundtrack);
+        manager.audioSource.PlayOneShot(intermissionSoundtrack);
 
         yield return ScaleObject(manager.instruction, 0.0f, 0.4f, instructionScaleDuration);
         yield return new WaitForSeconds(instructionDelay);

@@ -8,6 +8,35 @@ public class GameManager : MonoBehaviour
 
     [Header("System Status")]
     public bool gameStart;
+
+    
+
+    void Awake()
+    {
+        // 建立GameManager的單一Instance
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        // 根據不同的執行環境，建立對應的場景載入器
+        #if UNITY_EDITOR
+            sceneLoader = new EditorSceneLoader();
+        #else
+            sceneLoader = new RuntimeSceneLoader();
+        #endif
+    }
+
+
+
+
+
+    
     public bool countDownFinish;
     public bool success;
     public bool failed;
@@ -22,26 +51,8 @@ public class GameManager : MonoBehaviour
     public int leftTime;
     private float PreBackToUIDelay;
 
-    private UIManager manager;
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-        #if UNITY_EDITOR
-            sceneLoader = new EditorSceneLoader();
-        #else
-            sceneLoader = new RuntimeSceneLoader();
-        #endif
-    }
+    
 
     void Start()
     {
@@ -82,23 +93,23 @@ public class GameManager : MonoBehaviour
         gameEnd = false;
         changeScene = false;
         
-        SettingGameTime();
+        // SettingGameTime();
         leftTime = (int)gameTime;
     }
 
-    void SettingGameTime()
-    {
-        switch (SceneManager.GetActiveScene().name)
-        {
-            case "GhostAvoidLight":
-                gameTime = manager.GhostAvoidLight_Database.gameTime;
-                break;
+    // void SettingGameTime()
+    // {
+    //     switch (SceneManager.GetActiveScene().name)
+    //     {
+    //         case "GhostAvoidLight":
+    //             gameTime = manager.GhostAvoidLight_Database.gameTime;
+    //             break;
 
-            case "ShootTheTarget":
-                gameTime = manager.ShootTheTarget_Database.gameTime;
-                break;
-        }
-    }
+    //         case "ShootTheTarget":
+    //             gameTime = manager.ShootTheTarget_Database.gameTime;
+    //             break;
+    //     }
+    // }
 
     void GameCountDown()
     {
@@ -187,7 +198,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(SceneManager.GetActiveScene().name);
         countDownType = GameObject.Find("CountDownType");
-        manager = GameObject.Find("UI Objects").GetComponent<UIManager>();
         ResetGameState();
         if (SceneManager.GetActiveScene().name != "GameOver" && SceneManager.GetActiveScene().name != "TitleScreen")
         {
