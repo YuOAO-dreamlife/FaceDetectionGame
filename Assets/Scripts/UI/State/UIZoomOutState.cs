@@ -3,11 +3,6 @@ using UnityEngine;
 
 public class UIZoomOutState : UIStateBase
 {
-    [SerializeField] private float PreBackToUIDelay;
-    [SerializeField] private float UIScaleDuration = 0.2f;
-    [SerializeField] private float UITransparentDuration = 0.2f;
-    private AudioClip successSoundtrack = Resources.Load<AudioClip>("Soundtracks/Success");
-    private AudioClip failedSoundtrack = Resources.Load<AudioClip>("Soundtracks/Failed");
     public UIZoomOutState(UIManager manager) : base(manager) {}
 
     public override void Enter()
@@ -24,28 +19,28 @@ public class UIZoomOutState : UIStateBase
             || (GameManager.Instance.countDownType.tag == "TimeLimitMission" && GameManager.Instance.success)
         )
         {
-            PreBackToUIDelay = 2.0f;
+            _preBackToUIDelay = 2.0f;
         }
         else
         {
-            PreBackToUIDelay = 0;
+            _preBackToUIDelay = 0;
         }
 
-        yield return new WaitForSeconds(PreBackToUIDelay);
+        yield return new WaitForSeconds(_preBackToUIDelay);
 
         if (GameManager.Instance.failed) 
         {
-            manager.audioSource.PlayOneShot(failedSoundtrack);
+            _manager.AudioSource.PlayOneShot(_failedSoundtrack);
         }
         else 
         {
-            manager.audioSource.PlayOneShot(successSoundtrack);
+            _manager.AudioSource.PlayOneShot(_successSoundtrack);
         }
 
-        yield return FadeObject(manager.gameObject, 0.0f, 1.0f, UITransparentDuration);
+        yield return FadeObject(_manager.gameObject, 0.0f, 1.0f, _uITransparentDuration);
 
-        yield return ScaleObject(manager.gameObject, 4.0f, 1.0f, UIScaleDuration);
+        yield return ScaleObject(_manager.gameObject, 4.0f, 1.0f, _uIScaleDuration);
 
-        manager.ChangeState(new UIResultState(manager));
+        _manager.ChangeState(new UIResultState(_manager));
     }
 }

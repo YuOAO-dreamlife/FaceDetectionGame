@@ -1638,20 +1638,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a59a990858ab9c4fa4f51a86c28f32e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 8394159270742449909}
+  AudioSource: {fileID: 8394159270742449909}
   LandmarkInfo: {fileID: 0}
-  currentData: {fileID: 0}
-  instruction: {fileID: 8305535282150292658}
-  hintText: {fileID: 282023008389567289}
-  levelText: {fileID: 5128124845786445475}
-  radialProgressBar: {fileID: 6800855947954897695}
-  blackUI: {fileID: 7674730013183132670}
-  lifeUI:
+  _currentData: {fileID: 0}
+  Instruction: {fileID: 8305535282150292658}
+  HintText: {fileID: 282023008389567289}
+  LevelText: {fileID: 5128124845786445475}
+  RadialProgressBar: {fileID: 6800855947954897695}
+  BlackUI: {fileID: 7674730013183132670}
+  LifeUI:
   - {fileID: 6551434076431756658}
   - {fileID: 1359793113455551146}
   - {fileID: 3528168497492501327}
   - {fileID: 2704477456742152960}
-  lifeUIDead: {fileID: 21300000, guid: 018abdba5c46ba24d857e4269761a080, type: 3}
+  LifeUIDead: {fileID: 21300000, guid: 018abdba5c46ba24d857e4269761a080, type: 3}
 --- !u!82 &8394159270742449909
 AudioSource:
   m_ObjectHideFlags: 0

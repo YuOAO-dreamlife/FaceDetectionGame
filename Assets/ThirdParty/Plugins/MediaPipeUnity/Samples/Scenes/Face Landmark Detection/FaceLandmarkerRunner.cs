@@ -149,7 +149,7 @@ namespace Mediapipe.Unity.Sample.FaceLandmarkDetection
     public bool NoFaceExist
     {
       get {return noFaceExist;}
-      set
+      private set
       {
         if (noFaceExist != value)
         {

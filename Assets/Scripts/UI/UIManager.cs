@@ -7,32 +7,32 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("Essential elements")]
-    public AudioSource audioSource;
+    public AudioSource AudioSource;
     public FaceLandmarkerRunner LandmarkInfo;
 
     [Header("UI Status")]
-    public UIStateBase currentState;
-    [SerializeField] private UIData currentData;
+    public UIStateBase CurrentState;
+    [SerializeField] private UIData _currentData;
 
     [Header("UI Elements")]
-    public GameObject instruction;
-    public GameObject hintText;
-    public GameObject levelText;
+    public GameObject Instruction;
+    public GameObject HintText;
+    public GameObject LevelText;
 
 
-    public GameObject radialProgressBar;
-    public GameObject blackUI;
-    public GameObject[] lifeUI;
-    public Sprite lifeUIDead;
+    public GameObject RadialProgressBar;
+    public GameObject BlackUI;
+    public GameObject[] LifeUI;
+    public Sprite LifeUIDead;
 
     void Start()
     {
         LandmarkInfo = GameObject.Find("Solution").GetComponent<FaceLandmarkerRunner>();
-        currentData = Resources.Load<UIData>("Database/UIData/" + SceneManager.GetActiveScene().name);
+        _currentData = Resources.Load<UIData>("Database/UIData/" + SceneManager.GetActiveScene().name);
 
         for (int index = 0; index < GameManager.Instance.originalLifeCount - GameManager.Instance.lifeCount; index++)
         {
-            lifeUI[index].GetComponent<Image>().sprite = lifeUIDead;
+            LifeUI[index].GetComponent<Image>().sprite = LifeUIDead;
         }
 
         InitUIElements();
@@ -41,30 +41,30 @@ public class UIManager : MonoBehaviour
 
     void InitUIElements()
     {
-        instruction.GetComponent<Image>().sprite = currentData.InstructionImage;
-        instruction.GetComponentInChildren<TMP_Text>().text = currentData.InstructionText;
-        hintText.GetComponent<TMP_Text>().text = currentData.HintText;
+        Instruction.GetComponent<Image>().sprite = _currentData.InstructionImage;
+        Instruction.GetComponentInChildren<TMP_Text>().text = _currentData.InstructionText;
+        HintText.GetComponent<TMP_Text>().text = _currentData.HintText;
         switch (SceneManager.GetActiveScene().name)
         {
             case "TitleScreen":
-                levelText.GetComponent<TMP_Text>().text = "Face the camera";
+                LevelText.GetComponent<TMP_Text>().text = "Face the camera";
                 break;
 
             case "GameOver":
-                levelText.GetComponent<TMP_Text>().text = "Result\nLevel " + GameManager.Instance.countOfScenesHasLoaded;
+                LevelText.GetComponent<TMP_Text>().text = "Result\nLevel " + GameManager.Instance.countOfScenesHasLoaded;
                 break;
 
             default:
-                levelText.GetComponent<TMP_Text>().text = "Level " + GameManager.Instance.countOfScenesHasLoaded;
+                LevelText.GetComponent<TMP_Text>().text = "Level " + GameManager.Instance.countOfScenesHasLoaded;
                 break;
         }
     }
 
     public void ChangeState(UIStateBase newState)
     {
-        currentState?.Exit();
-        currentState = newState;
-        currentState.Enter();
+        CurrentState?.Exit();
+        CurrentState = newState;
+        CurrentState.Enter();
     }
 
     void SettingUIState()

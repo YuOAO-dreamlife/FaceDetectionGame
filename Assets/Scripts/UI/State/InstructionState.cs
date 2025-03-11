@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class InstructionState : UIStateBase
 {
-    [SerializeField] private float instructionScaleDuration = 0.15f;
-    [SerializeField] private float instructionDelay = 1.5f;
-    private AudioClip intermissionSoundtrack = Resources.Load<AudioClip>("Soundtracks/Default");
     public InstructionState(UIManager manager) : base(manager) {}
 
     public override void Enter()
@@ -15,15 +12,15 @@ public class InstructionState : UIStateBase
 
     IEnumerator ShowInstruction()
     {
-        manager.audioSource.PlayOneShot(intermissionSoundtrack);
+        _manager.AudioSource.PlayOneShot(_intermissionSoundtrack);
 
-        yield return ScaleObject(manager.instruction, 0.0f, 0.4f, instructionScaleDuration);
-        yield return new WaitForSeconds(instructionDelay);
+        yield return ScaleObject(_manager.Instruction, 0.0f, 0.4f, _instructionScaleDuration);
+        yield return new WaitForSeconds(_instructionDelay);
 
-        yield return ScaleObject(manager.instruction, 0.4f, 0.0f, instructionScaleDuration);
+        yield return ScaleObject(_manager.Instruction, 0.4f, 0.0f, _instructionScaleDuration);
 
-        manager.instruction.SetActive(false);
+        _manager.Instruction.SetActive(false);
 
-        manager.ChangeState(new HintState(manager));
+        _manager.ChangeState(new HintState(_manager));
     }
 }

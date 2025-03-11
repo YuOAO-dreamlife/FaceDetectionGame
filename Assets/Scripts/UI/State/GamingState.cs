@@ -8,7 +8,7 @@ public class GamingState : UIStateBase
     {
         if (GameManager.Instance.success || GameManager.Instance.failed)
         {
-            manager.ChangeState(new UIZoomOutState(manager));
+            _manager.ChangeState(new UIZoomOutState(_manager));
         }
     }
 }

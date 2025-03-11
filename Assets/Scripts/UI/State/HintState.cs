@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class HintState : UIStateBase
 {
-    [SerializeField] private float hintScaleDuration = 0.15f;
-    [SerializeField] private float hintDelay = 1.0f;
     public HintState(UIManager manager) : base(manager) {}
 
     public override void Enter()
@@ -14,11 +12,11 @@ public class HintState : UIStateBase
 
     IEnumerator ShowHint()
     {
-        yield return ScaleObject(manager.hintText, 0.0f, 0.15f, hintScaleDuration);
-        yield return new WaitForSeconds(hintDelay);
+        yield return ScaleObject(_manager.HintText, 0.0f, 0.15f, _hintScaleDuration);
+        yield return new WaitForSeconds(_hintDelay);
 
-        manager.hintText.GetComponent<RectTransform>().localScale = Vector3.zero;
+        _manager.HintText.GetComponent<RectTransform>().localScale = Vector3.zero;
 
-        manager.ChangeState(new UIZoomInState(manager));
+        _manager.ChangeState(new UIZoomInState(_manager));
     }
 }

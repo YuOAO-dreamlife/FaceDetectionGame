@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set;}
-    public ISceneLoader sceneLoader;
+    public ISceneLoader SceneLoader;
 
     [Header("System Status")]
     public bool gameStart;
@@ -26,9 +26,9 @@ public class GameManager : MonoBehaviour
 
         // 根據不同的執行環境，建立對應的場景載入器
         #if UNITY_EDITOR
-            sceneLoader = new EditorSceneLoader();
+            SceneLoader = new EditorSceneLoader();
         #else
-            sceneLoader = new RuntimeSceneLoader();
+            SceneLoader = new RuntimeSceneLoader();
         #endif
     }
 
@@ -164,21 +164,21 @@ public class GameManager : MonoBehaviour
         switch (SceneManager.GetActiveScene().name)
         {
             case "TitleScreen":
-                sceneLoader.SwitchToNextScene();
+                SceneLoader.SwitchToNextScene();
                 break;
 
             case "GameOver":
-                sceneLoader.SwitchToTitleScreen();
+                SceneLoader.SwitchToTitleScreen();
                 break;
 
             default:
                 if (lifeCount == 0) 
                 {
-                    sceneLoader.SwitchToGameOver();
+                    SceneLoader.SwitchToGameOver();
                 }
                 else
                 {
-                    sceneLoader.SwitchToNextScene();
+                    SceneLoader.SwitchToNextScene();
                 }
                 break;
         }

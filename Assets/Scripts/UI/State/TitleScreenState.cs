@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class TitleScreenState : UIStateBase
 {
-    [SerializeField] private float instructionScaleDuration = 0.15f;
     public TitleScreenState(UIManager manager) : base(manager) {}
 
     public override void Enter()
@@ -17,10 +16,10 @@ public class TitleScreenState : UIStateBase
             GameManager.Instance.PreloadNextScene();
         #endif
 
-        manager.instruction.GetComponent<RectTransform>().localPosition = new Vector3(0, 12, 0);
+        _manager.Instruction.GetComponent<RectTransform>().localPosition = new Vector3(0, 12, 0);
 
-        yield return ScaleObject(manager.instruction, 0.0f, 0.3f, instructionScaleDuration);
+        yield return ScaleObject(_manager.Instruction, 0.0f, 0.3f, _instructionScaleDuration);
         
-        manager.ChangeState(new WaitCircleBarState(manager));
+        _manager.ChangeState(new WaitCircleBarState(_manager));
     }
 }
