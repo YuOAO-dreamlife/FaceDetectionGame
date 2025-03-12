@@ -15,6 +15,6 @@ public class BlackUIState : UIStateBase
         yield return FadeObject(_manager.BlackUI, 0.0f, 1.0f, _blackUITransparentDuration);
         yield return new WaitForSeconds(1);
 
-        GameManager.Instance.changeScene = true;
+        GameManager.Instance.ChangeTheScene();
     }
 }

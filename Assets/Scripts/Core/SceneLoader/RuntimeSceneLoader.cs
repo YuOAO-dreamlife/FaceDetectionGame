@@ -16,11 +16,13 @@ public class RuntimeSceneLoader : ISceneLoader
     public void PreloadGameOver()
     {
         operation = SceneManager.LoadSceneAsync("GameOver");
+        operation.allowSceneActivation = false;
     }
 
     public void PreloadTitleScreen()
     {
         operation = SceneManager.LoadSceneAsync("TitleScreen");
+        operation.allowSceneActivation = false;
     }
 
     public void SwitchToNextScene()

@@ -18,7 +18,7 @@ public class LightGenerator : MonoBehaviour
 
     void Update()
     {
-        if (manager.gameStart && !lightHasGenerated)
+        if (manager.MissionStart && !lightHasGenerated)
         {
             for (int count = 1; count <= spotLightAmount; count++)
             {

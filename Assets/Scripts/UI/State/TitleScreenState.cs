@@ -12,9 +12,7 @@ public class TitleScreenState : UIStateBase
 
     IEnumerator TitleScreenShowInstruction()
     {
-        #if !UNITY_EDITOR
-            GameManager.Instance.PreloadNextScene();
-        #endif
+        GameManager.Instance.SceneLoader.PreloadNextScene();
 
         _manager.Instruction.GetComponent<RectTransform>().localPosition = new Vector3(0, 12, 0);
 

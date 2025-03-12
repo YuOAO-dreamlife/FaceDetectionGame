@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,11 +7,154 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set;}
     public ISceneLoader SceneLoader;
+    [SerializeField] private BasicData _currentData;
 
-    [Header("System Status")]
-    public bool gameStart;
+#region 變數 & 狀態宣告
+    private int _passedMissionCount;
+    public int PassedMissionCount
+    {
+        get { return _passedMissionCount;}
+        private set
+        {
+            if (_passedMissionCount != value)
+            {
+                _passedMissionCount = value;
+            }
+        }
+    }
 
-    
+    [SerializeField] private int _lifeCount;
+    [SerializeField] private int _originalLifeCount = 4;
+    public int LifeCount
+    {
+        get { return _lifeCount;}
+        private set
+        {
+            if (_lifeCount != value)
+            {
+                _lifeCount = value;
+            }
+        }
+    }
+
+    private int _currentTime;
+    public event Action<int> OnCurrentTime;
+    public int CurrentTime
+    {
+        get { return _currentTime;}
+        private set
+        {
+            if (_currentTime != value)
+            {
+                _currentTime = value;
+                OnCurrentTime?.Invoke(_currentTime);
+            }
+        }
+    }
+
+    private int _preBackToUIDelay;
+    public int PreBackToUIDelay
+    {
+        get { return _preBackToUIDelay;}
+        private set
+        {
+            if (_preBackToUIDelay != value)
+            {
+                _preBackToUIDelay = value;
+            }
+        }
+    }
+
+    private bool _missionStart;
+    public event Action OnMissionStart; // 當任務開始，呼叫HandleCountdown方法
+    public bool MissionStart
+    {
+        get { return _missionStart; }
+        private set
+        {
+            if (_missionStart != value)
+            {
+                _missionStart = value;
+                if (_missionStart)
+                {
+                    OnMissionStart?.Invoke();
+                }
+            }
+        }
+    }
+
+    private bool _missionSuccess;
+    public event Action OnMissionSuccess; // 當任務成功，轉換到UIZoomOutState
+    public bool MissionSuccess
+    {
+        get { return _missionSuccess; }
+        private set
+        {
+            if (_missionSuccess != value)
+            {
+                _missionSuccess = value;
+                if (_missionSuccess)
+                {
+                    OnMissionSuccess?.Invoke();
+                }
+            }
+        }
+    }
+
+    private bool _missionFailure;
+    public event Action OnMissionFailure; // 當任務失敗，轉換到UIZoomOutState
+    public bool MissionFailure
+    {
+        get { return _missionFailure; }
+        private set
+        {
+            if (_missionFailure != value)
+            {
+                _missionFailure = value;
+                if (_missionFailure)
+                {
+                    OnMissionFailure?.Invoke();
+                }
+            }
+        }
+    }
+
+    private bool _missionEnd;
+    public event Action OnMissionEnd; // 當任務結束，設置返回UI的緩衝時間+螢幕(UI)表情改變
+    public bool MissionEnd
+    {
+        get { return _missionEnd; }
+        private set
+        {
+            if (_missionEnd != value)
+            {
+                _missionEnd = value;
+                if (_missionEnd)
+                {
+                    OnMissionEnd?.Invoke();
+                }
+            }
+        }
+    }
+
+    private bool _changeScene;
+    public event Action OnChangeScene; // 變更場景
+    public bool ChangeScene
+    {
+        get { return _changeScene; }
+        private set
+        {
+            if (_changeScene != value)
+            {
+                _changeScene = value;
+                if (_changeScene)
+                {
+                    OnChangeScene?.Invoke();
+                }
+            }
+        }
+    }
+#endregion
 
     void Awake()
     {
@@ -26,137 +171,119 @@ public class GameManager : MonoBehaviour
 
         // 根據不同的執行環境，建立對應的場景載入器
         #if UNITY_EDITOR
-            SceneLoader = new EditorSceneLoader();
+            SceneLoader = new RuntimeSceneLoader();
         #else
             SceneLoader = new RuntimeSceneLoader();
         #endif
     }
 
-
-
-
-
-    
-    public bool countDownFinish;
-    public bool success;
-    public bool failed;
-    public bool gameEnd;
-    public bool changeScene;
-    public int countOfScenesHasLoaded = 0;
-    public int lifeCount = 4;
-    public int originalLifeCount = 4;
-
-    public GameObject countDownType;
-    private float gameTime;
-    public int leftTime;
-    private float PreBackToUIDelay;
-
-
-    
-
-    void Start()
+    void ResetGameState()
     {
-        lifeCount = originalLifeCount;
+        _currentData = Resources.Load<BasicData>("Database/BasicData/" + SceneManager.GetActiveScene().name);
+
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
+        {
+            PassedMissionCount = 0;
+            LifeCount = _originalLifeCount;
+        }
+
+        MissionStart = false;
+        MissionSuccess = false;
+        MissionFailure = false;
+        MissionEnd = false;
+        ChangeScene = false;
     }
 
-    void Update()
+#region 直接改變狀態的方法
+    void AddMissionCount()
     {
-        if (countDownType != null)
+        if (SceneManager.GetActiveScene().name != "GameOver" && SceneManager.GetActiveScene().name != "TitleScreen")
         {
-            if ((countDownType.tag == "KeepAliveInTime" && failed) || (countDownType.tag == "TimeLimitMission" && success))
+            PassedMissionCount++;
+        }
+    }
+
+    public void LoseALife()
+    {
+        LifeCount--;
+    }
+
+    public void StartTheMission()
+    {
+        MissionStart = true;
+    }
+
+    public void MissionComplete()
+    {
+        MissionSuccess = true;
+    }
+
+    public void MissionFailed()
+    {
+        MissionFailure = true;
+    }
+
+    public void EndTheMission()
+    {
+        MissionEnd = true;
+    }
+
+    public void ChangeTheScene()
+    {
+        ChangeScene = true;
+    }
+#endregion
+
+#region 改變時呼叫的方法
+    void HandleCountdown()
+    {
+        StartCoroutine(CountdownCoroutine());
+    }
+
+    IEnumerator CountdownCoroutine()
+    {
+        CurrentTime = _currentData.GameTime;
+        while (CurrentTime > 0)
+        {
+            yield return new WaitForSeconds(1);
+            CurrentTime--;
+        }
+        if (_currentData.CountdownType == CountdownType.KeepAliveInTime && !MissionFailure)
+        {
+            MissionComplete();
+        }
+        else if (_currentData.CountdownType == CountdownType.TimeLimitMission && !MissionSuccess)
+        {
+            MissionFailed();
+        }
+    }
+
+    void SetPreBackToUIDelayTime()
+    {
+        if (_currentData.CountdownType == CountdownType.KeepAliveInTime)
+        {
+            if (MissionSuccess)
             {
-                PreBackToUIDelay = 2.0f;
+                PreBackToUIDelay = 0;
             }
-            else
+            else if (MissionFailure)
+            {
+                PreBackToUIDelay = 2;
+                CurrentTime = PreBackToUIDelay;
+            }
+        }
+        else if (_currentData.CountdownType == CountdownType.TimeLimitMission)
+        {
+            if (MissionSuccess)
+            {
+                PreBackToUIDelay = 2;
+                CurrentTime = PreBackToUIDelay;
+            }
+            else if (MissionFailure)
             {
                 PreBackToUIDelay = 0;
             }
         }
-        
-        if (gameStart && !countDownFinish) 
-        {
-            GameCountDown();
-        }
-
-        if (changeScene) 
-        {
-            LoadNextScene();
-        }
-    }
-
-    void ResetGameState()
-    {
-        gameStart = false;
-        countDownFinish = false;
-        success = false;
-        failed = false;
-        gameEnd = false;
-        changeScene = false;
-        
-        // SettingGameTime();
-        leftTime = (int)gameTime;
-    }
-
-    // void SettingGameTime()
-    // {
-    //     switch (SceneManager.GetActiveScene().name)
-    //     {
-    //         case "GhostAvoidLight":
-    //             gameTime = manager.GhostAvoidLight_Database.gameTime;
-    //             break;
-
-    //         case "ShootTheTarget":
-    //             gameTime = manager.ShootTheTarget_Database.gameTime;
-    //             break;
-    //     }
-    // }
-
-    void GameCountDown()
-    {
-        if (countDownType.tag == "KeepAliveInTime")
-        {
-            if (failed)
-            {
-                PreBackToUIDelay -= Time.deltaTime;
-                leftTime = (int)Mathf.Ceil(PreBackToUIDelay);
-                if (PreBackToUIDelay < 0)
-                {
-                    countDownFinish = true;
-                }
-            }
-            else
-            {
-                gameTime -= Time.deltaTime;
-                leftTime = (int)Mathf.Ceil(gameTime);
-                if (gameTime < 0)
-                {
-                    countDownFinish = true;
-                    success = true;
-                }
-            }
-        }
-        else if (countDownType.tag == "TimeLimitMission")
-        {
-            if (success)
-            {
-                PreBackToUIDelay -= Time.deltaTime;
-                leftTime = (int)Mathf.Ceil(PreBackToUIDelay);
-                if (PreBackToUIDelay < 0)
-                {
-                    countDownFinish = true;
-                }
-            }
-            else
-            {
-                gameTime -= Time.deltaTime;
-                leftTime = (int)Mathf.Ceil(gameTime);
-                if (gameTime < 0)
-                {
-                    countDownFinish = true;
-                    failed = true;
-                }
-            }
-        }        
     }
 
     void LoadNextScene()
@@ -172,7 +299,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             default:
-                if (lifeCount == 0) 
+                if (LifeCount == 0) 
                 {
                     SceneLoader.SwitchToGameOver();
                 }
@@ -183,25 +310,29 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+#endregion
     
+#region 變換場景時呼叫的方法
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ResetGameState();
+        AddMissionCount();
+    }
+
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        OnMissionStart += HandleCountdown;
+        OnMissionEnd += SetPreBackToUIDelayTime;
+        OnChangeScene += LoadNextScene;
     }
 
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        OnMissionStart -= HandleCountdown;
+        OnMissionEnd -= SetPreBackToUIDelayTime;
+        OnChangeScene -= LoadNextScene;
     }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log(SceneManager.GetActiveScene().name);
-        countDownType = GameObject.Find("CountDownType");
-        ResetGameState();
-        if (SceneManager.GetActiveScene().name != "GameOver" && SceneManager.GetActiveScene().name != "TitleScreen")
-        {
-            countOfScenesHasLoaded++;
-        }
-    }
+#endregion
 }

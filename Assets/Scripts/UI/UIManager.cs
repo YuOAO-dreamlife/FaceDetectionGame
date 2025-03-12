@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     public GameObject Instruction;
     public GameObject HintText;
     public GameObject LevelText;
-
+    [SerializeField] private GameObject _leftTimeText;
 
     public GameObject RadialProgressBar;
     public GameObject BlackUI;
@@ -30,13 +30,22 @@ public class UIManager : MonoBehaviour
         LandmarkInfo = GameObject.Find("Solution").GetComponent<FaceLandmarkerRunner>();
         _currentData = Resources.Load<UIData>("Database/UIData/" + SceneManager.GetActiveScene().name);
 
-        for (int index = 0; index < GameManager.Instance.originalLifeCount - GameManager.Instance.lifeCount; index++)
+        for (int index = 0; index < LifeUI.Length - GameManager.Instance.LifeCount; index++)
         {
             LifeUI[index].GetComponent<Image>().sprite = LifeUIDead;
         }
 
         InitUIElements();
         SettingUIState();
+    }
+
+    void LeftTimeChange(int currentTime)
+    {
+        if (currentTime <= 3)
+        {
+            _leftTimeText.SetActive(true);
+            _leftTimeText.GetComponent<TMP_Text>().text = "The left time of the mission... " + currentTime.ToString() + "...";
+        }
     }
 
     void InitUIElements()
@@ -51,11 +60,11 @@ public class UIManager : MonoBehaviour
                 break;
 
             case "GameOver":
-                LevelText.GetComponent<TMP_Text>().text = "Result\nLevel " + GameManager.Instance.countOfScenesHasLoaded;
+                LevelText.GetComponent<TMP_Text>().text = "Result\nLevel " + GameManager.Instance.PassedMissionCount;
                 break;
 
             default:
-                LevelText.GetComponent<TMP_Text>().text = "Level " + GameManager.Instance.countOfScenesHasLoaded;
+                LevelText.GetComponent<TMP_Text>().text = "Level " + GameManager.Instance.PassedMissionCount;
                 break;
         }
     }
@@ -83,5 +92,15 @@ public class UIManager : MonoBehaviour
                 ChangeState(new InstructionState(this));
                 break;
         }
+    }
+
+    void OnEnable()
+    {
+        GameManager.Instance.OnCurrentTime += LeftTimeChange;
+    }
+
+    void OnDisable()
+    {
+        GameManager.Instance.OnCurrentTime -= LeftTimeChange;
     }
 }

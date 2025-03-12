@@ -16,7 +16,7 @@ public class UIZoomInState : UIStateBase
 
         yield return FadeObject(_manager.gameObject, 1.0f, 0.0f, _uITransparentDuration);
 
-        GameManager.Instance.gameStart = true;
+        GameManager.Instance.StartTheMission();
 
         _manager.ChangeState(new GamingState(_manager));
     }

@@ -25,13 +25,13 @@ public class LightController : MonoBehaviour
 
     void Update()
     {
-        if (manager.GetComponent<GameManager>().failed)
+        if (manager.GetComponent<GameManager>().MissionFailure)
         {
             transform.position = Vector3.Lerp(transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y, 0), Time.deltaTime * speed / 3);
             gameObject.GetComponent<Light>().spotAngle = 30;
             gameObject.GetComponent<Light>().intensity = 5;
         }
-        else if (manager.GetComponent<GameManager>().success)
+        else if (manager.GetComponent<GameManager>().MissionSuccess)
         {
             Destroy(gameObject);
         }
@@ -50,7 +50,7 @@ public class LightController : MonoBehaviour
         if (other.tag == "Player")
         {
             ghost.GetComponent<Animator>().SetBool("Damage", true);
-            manager.GetComponent<GameManager>().failed = true;
+            manager.GetComponent<GameManager>().MissionFailed();
         }
         else if (other.tag == "Light")
         {

@@ -24,7 +24,7 @@ public class GhostController : HeadTransformController
 
     protected override void PlayerController()
     {
-        if (!manager.failed)
+        if (!manager.MissionFailure)
         {
             MoveHeadInXY();
             RotateHead();

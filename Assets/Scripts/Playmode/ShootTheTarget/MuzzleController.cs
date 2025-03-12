@@ -29,7 +29,7 @@ public class MuzzleController : HeadTransformController
     protected override void PlayerController()
     {
         MoveHeadInXY();
-        if (manager.gameStart && eyeBlink() && Time.time > nextFire)
+        if (manager.MissionStart && eyeBlink() && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
             Shoot();

@@ -36,7 +36,7 @@ public class TargetGenerator : MonoBehaviour
     {
         if (gameObject.transform.childCount == 0)
         {
-            manager.success = true;
+            manager.MissionComplete();
         }
     }
 }

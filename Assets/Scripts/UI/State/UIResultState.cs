@@ -14,15 +14,15 @@ public class UIResultState : UIStateBase
 
     IEnumerator UIResult()
     {
-        if (GameManager.Instance.failed)
+        if (GameManager.Instance.MissionFailure)
         {
-            int currentLiveIndex = GameManager.Instance.originalLifeCount - GameManager.Instance.lifeCount;
+            int currentLiveIndex = 4 - GameManager.Instance.LifeCount;
             _manager.LifeUI[currentLiveIndex].GetComponent<Image>().sprite = _manager.LifeUIDead;
-            ScaleObject(_manager.LifeUI[currentLiveIndex], 3.0f, 1.5f, 0.2f);
-            GameManager.Instance.lifeCount--;
+            yield return ScaleObject(_manager.LifeUI[currentLiveIndex], 3.0f, 1.5f, 0.2f);
+            GameManager.Instance.LoseALife();
         }
         
-        if (GameManager.Instance.lifeCount > 0)
+        if (GameManager.Instance.LifeCount > 0)
         {
             GameManager.Instance.SceneLoader.PreloadNextScene();
         }
@@ -33,6 +33,6 @@ public class UIResultState : UIStateBase
 
         yield return new WaitForSeconds(_postBackToUIDelay);
 
-        GameManager.Instance.changeScene = true;
+        GameManager.Instance.ChangeTheScene();
     }
 }

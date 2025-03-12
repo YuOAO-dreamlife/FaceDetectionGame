@@ -12,23 +12,13 @@ public class UIZoomOutState : UIStateBase
 
     IEnumerator UIZoomOut()
     {
-        GameManager.Instance.gameEnd = true;
+        GameManager.Instance.EndTheMission();
 
-        if (
-            (GameManager.Instance.countDownType.tag == "KeepAliveInTime" && GameManager.Instance.failed) 
-            || (GameManager.Instance.countDownType.tag == "TimeLimitMission" && GameManager.Instance.success)
-        )
-        {
-            _preBackToUIDelay = 2.0f;
-        }
-        else
-        {
-            _preBackToUIDelay = 0;
-        }
+        _preBackToUIDelay = GameManager.Instance.PreBackToUIDelay;
 
         yield return new WaitForSeconds(_preBackToUIDelay);
 
-        if (GameManager.Instance.failed) 
+        if (GameManager.Instance.MissionFailure) 
         {
             _manager.AudioSource.PlayOneShot(_failedSoundtrack);
         }

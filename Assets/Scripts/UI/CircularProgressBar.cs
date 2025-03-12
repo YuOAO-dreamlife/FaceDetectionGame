@@ -62,7 +62,7 @@ public class CircularProgressBar : MonoBehaviour
 
             if (indicatorTimer >= maxIndicatorTimer)
             {
-                manager.changeScene = true;
+                manager.ChangeTheScene();
                 yield break;
             }
 
