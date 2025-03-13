@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class TargetController : MonoBehaviour
 {
-    public GameObject destroyedVer;
-    public bool destroy = false;
+    [SerializeField] private GameObject _destroyedVer;
+    private MuzzleController _muzzleController;
 
-    void Update()
+    void OnEnable()
     {
-        if (destroy)
+        _muzzleController = GameObject.Find("Muzzle").GetComponent<MuzzleController>();
+        _muzzleController.ShootTheTarget += DestroyTarget;
+    }
+
+    void DestroyTarget(GameObject target)
+    {
+        if (target == gameObject)
         {
-            Instantiate(destroyedVer, transform.position, transform.rotation);
+            Instantiate(_destroyedVer, transform.position, transform.rotation);
             Destroy(gameObject);
         }
+    }
+
+    void OnDisable()
+    {
+        _muzzleController.ShootTheTarget -= DestroyTarget;
     }
 }

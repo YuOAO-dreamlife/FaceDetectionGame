@@ -968,11 +968,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36254fd5f2e5ce246ac680f66d89aa17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spotLight: {fileID: 1169202506527622104, guid: 817df59c9d2a9ca44b89959e39a24054, type: 3}
-  parent: {fileID: 3667955597592772062}
-  ghost: {fileID: 3317622713491656287}
-  manager: {fileID: 0}
-  spotLightAmount: 5
+  _spotLight: {fileID: 1169202506527622104, guid: 817df59c9d2a9ca44b89959e39a24054, type: 3}
+  _parent: {fileID: 3667955597592772062}
+  _ghost: {fileID: 3317622713491656287}
+  _spotLightAmount: 5
+  _Xmax: 100
+  _Xmin: -100
+  _Ymax: 50
+  _Ymin: -50
 --- !u!4 &6097066749946778939
 Transform:
   m_ObjectHideFlags: 0
@@ -1397,9 +1400,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e3d28736af424478239ccadcd3e1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LandmarkInfo: {fileID: 8395900005616488613}
-  MainCamera: {fileID: 4599821608653497268}
-  manager: {fileID: 0}
+  _landmarkInfo: {fileID: 8395900005616488613}
+  _mainCamera: {fileID: 4599821608653497268}
+  CameraToUIOffset: 100
+  UIWidth: 200
+  UIHeight: 100
+  _moveSmoothTime: 0.1
+  _rotationSmoothTime: 0.1
 --- !u!1001 &8395900005616488612
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b426e8c69d726c8448a4af9db7647a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targets:
+  _targets:
   - {fileID: 4181285218744708162}
   - {fileID: 4181285217798375923}
   - {fileID: 4181285218353692939}
@@ -276,7 +276,7 @@ MonoBehaviour:
   - {fileID: 722944286107912238}
   - {fileID: 803132641}
   - {fileID: 969973524}
-  targetsCount: 3
+  _targetsCount: 3
 --- !u!1 &803132641 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 722944285050717332, guid: 33fb255f716c529498178da2b06042ec, type: 3}
@@ -1680,10 +1680,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85efc25e713d3344a8e7700f18edf681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LandmarkInfo: {fileID: 8395900005616488613}
-  MainCamera: {fileID: 4599821608653497268}
-  manager: {fileID: 0}
-  impactEffect: {fileID: 1025285306637258, guid: d8f0099df63275647a8bcf646df1ca00, type: 3}
+  _landmarkInfo: {fileID: 8395900005616488613}
+  _mainCamera: {fileID: 4599821608653497268}
+  CameraToUIOffset: 1
+  UIWidth: 50
+  UIHeight: 25
+  _moveSmoothTime: 0.1
+  _rotationSmoothTime: 0.1
+  _impactEffect: {fileID: 1025285306637258, guid: d8f0099df63275647a8bcf646df1ca00, type: 3}
+  _fireRate: 0.5
 --- !u!1 &3779687467148664017
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,10 +1918,6 @@ PrefabInstance:
     - target: {fileID: 7454147386769222714, guid: d691fca290de1b846ad3eef6745993a6, type: 3}
       propertyPath: m_Name
       value: Main Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 7454147386769222714, guid: d691fca290de1b846ad3eef6745993a6, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8702539295283839646, guid: d691fca290de1b846ad3eef6745993a6, type: 3}
       propertyPath: m_Pivot.x

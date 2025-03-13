@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour
 
         // 根據不同的執行環境，建立對應的場景載入器
         #if UNITY_EDITOR
-            SceneLoader = new RuntimeSceneLoader();
+            SceneLoader = new EditorSceneLoader();
         #else
             SceneLoader = new RuntimeSceneLoader();
         #endif

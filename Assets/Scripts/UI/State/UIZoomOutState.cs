@@ -1,18 +1,27 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIZoomOutState : UIStateBase
 {
     public UIZoomOutState(UIManager manager) : base(manager) {}
 
+    private Sprite[] _defaultEmotions;
+    private int _defaultRandom;
+
     public override void Enter()
     {
+        _defaultEmotions = Resources.LoadAll<Sprite>("Sprites/UI/Emotions/Default");
+        _defaultRandom = Random.Range(0, _defaultEmotions.Length);
         StartTrackedCoroutine(UIZoomOut());
     }
 
     IEnumerator UIZoomOut()
     {
         GameManager.Instance.EndTheMission();
+
+        _manager.ScreenEmotion.SetActive(true);
+        _manager.ScreenEmotion.GetComponent<Image>().sprite = _defaultEmotions[_defaultRandom];
 
         _preBackToUIDelay = GameManager.Instance.PreBackToUIDelay;
 

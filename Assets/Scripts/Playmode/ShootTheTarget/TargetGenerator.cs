@@ -4,22 +4,20 @@ using UnityEngine;
 
 public class TargetGenerator : MonoBehaviour
 {
-    private GameManager manager;
-    [SerializeField] private GameObject[] targets;
-    [SerializeField] private int targetsCount = 3;
-    private HashSet<int> randomIndexSet = new HashSet<int>();
+    [SerializeField] private GameObject[] _targets;
+    [SerializeField] private int _targetsCount = 3;
+    private HashSet<int> _randomIndexSet = new HashSet<int>();
 
     void Start()
     {
-        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        while (randomIndexSet.Count < targetsCount)
+        while (_randomIndexSet.Count < _targetsCount)
         {
-            randomIndexSet.Add(Random.Range(0, targets.Length));
+            _randomIndexSet.Add(Random.Range(0, _targets.Length));
         }
 
-        foreach (int index in randomIndexSet)
+        foreach (int index in _randomIndexSet)
         {
-            targets[index].SetActive(true);
+            _targets[index].SetActive(true);
         }
 
         foreach (Transform child in gameObject.transform)
@@ -31,12 +29,11 @@ public class TargetGenerator : MonoBehaviour
         }
     }
 
-    
-    void Update()
+    void OnTransformChildrenChanged()
     {
         if (gameObject.transform.childCount == 0)
         {
-            manager.MissionComplete();
+            GameManager.Instance.MissionComplete();
         }
     }
 }

@@ -1,60 +1,95 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class LightController : MonoBehaviour
 {
-    private GameObject ghost;
-    private GameObject manager;
-    private float x_max = 100, x_min = -100, y_max = 50, y_min = -50;
-    private float speed = 30;
-    private Vector3 targetPos;
+    private GameObject _ghost;
+    [SerializeField] private Light _light;
+    
+    [SerializeField] private float _Xmax; 
+    [SerializeField] private float _Xmin;
+    [SerializeField] private float _Ymax; 
+    [SerializeField] private float _Ymin;
+    [SerializeField] private float _speed;
+
+    [SerializeField] private float _gatherSpotAngle;
+    [SerializeField] private float _gatherIntensity;
+
+    private Vector3 _targetPos;
 
     void Start()
     {
-        ghost = GameObject.Find("Ghost");
-        manager = GameObject.Find("GameManager");
-        PositionChange();
+        _ghost = GameObject.Find("Ghost");
+        _targetPos = PositionChange();
     }
 
-    void PositionChange()
+    void FixedUpdate()
     {
-        targetPos = new Vector2(Random.Range(x_min, x_max), Random.Range(y_min, y_max));
+        if (Vector3.Distance(transform.position, _targetPos) < 1) 
+        {
+            _targetPos = PositionChange();
+        }
+        if (!GameManager.Instance.MissionEnd)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _targetPos, Time.fixedDeltaTime * _speed);
+        }
     }
 
-    void Update()
+    Vector3 PositionChange()
     {
-        if (manager.GetComponent<GameManager>().MissionFailure)
+        return new Vector3(Random.Range(_Xmin, _Xmax), Random.Range(_Ymin, _Ymax), 0);
+    }
+
+    void GatherToPlayer()
+    {
+        Vector3 ghostPos = new Vector3(_ghost.transform.position.x, _ghost.transform.position.y, 0);
+        StartCoroutine(MoveToPos(transform.position, ghostPos, 0.1f));
+        _light.spotAngle = _gatherSpotAngle;
+        _light.intensity = _gatherIntensity;
+    }
+
+    IEnumerator MoveToPos(Vector3 startPos, Vector3 endPos, float duration)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(ghost.transform.position.x, ghost.transform.position.y, 0), Time.deltaTime * speed / 3);
-            gameObject.GetComponent<Light>().spotAngle = 30;
-            gameObject.GetComponent<Light>().intensity = 5;
+            float t = elapsedTime / duration;
+            transform.position = Vector3.Lerp(startPos, endPos, t);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
-        else if (manager.GetComponent<GameManager>().MissionSuccess)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            if (Vector2.Distance(transform.position, targetPos) < 1) 
-            {
-                PositionChange();
-            }
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * speed);
-        }
+
+        transform.position = endPos;
+    }
+
+    void LightDisappear()
+    {
+        Destroy(gameObject);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            ghost.GetComponent<Animator>().SetBool("Damage", true);
-            manager.GetComponent<GameManager>().MissionFailed();
+            _ghost.GetComponent<Animator>().SetBool("Damage", true);
+            GameManager.Instance.MissionFailed();
         }
-        else if (other.tag == "Light")
+        else if (other.CompareTag("Light"))
         {
-            PositionChange();
+            _targetPos = PositionChange();
         }
+    }
+
+    void OnEnable()
+    {
+        GameManager.Instance.OnMissionFailure += GatherToPlayer;
+        GameManager.Instance.OnMissionSuccess += LightDisappear;
+    }
+
+    void OnDisable()
+    {
+        GameManager.Instance.OnMissionFailure -= GatherToPlayer;
+        GameManager.Instance.OnMissionSuccess -= LightDisappear;
     }
 }

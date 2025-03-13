@@ -19,8 +19,8 @@ public class UIManager : MonoBehaviour
     public GameObject HintText;
     public GameObject LevelText;
     [SerializeField] private GameObject _leftTimeText;
-
     public GameObject RadialProgressBar;
+    public GameObject ScreenEmotion;
     public GameObject BlackUI;
     public GameObject[] LifeUI;
     public Sprite LifeUIDead;

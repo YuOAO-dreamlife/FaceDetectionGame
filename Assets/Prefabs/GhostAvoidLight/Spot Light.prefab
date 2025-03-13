@@ -157,3 +157,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d2d456db8116e4fa1011a1a89565f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _light: {fileID: 8975516847825809614}
+  _Xmax: 100
+  _Xmin: -100
+  _Ymax: 50
+  _Ymin: -50
+  _speed: 30
+  _gatherSpotAngle: 30
+  _gatherIntensity: 5

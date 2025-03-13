@@ -29,16 +29,21 @@ public abstract class UIStateBase
     public abstract void Enter();
     public virtual void Exit()
     {
-        if (_currentCoroutine != null)
-        {
-            _manager.StopCoroutine(_currentCoroutine);
-            _currentCoroutine = null;
-        }
+        StopTrackedCoroutine();
     }
 
     protected void StartTrackedCoroutine(IEnumerator routine)
     {
         _currentCoroutine = _manager.StartCoroutine(routine);
+    }
+
+    protected void StopTrackedCoroutine()
+    {
+        if (_currentCoroutine != null)
+        {
+            _manager.StopCoroutine(_currentCoroutine);
+            _currentCoroutine = null;
+        }
     }
 
     protected IEnumerator ScaleObject(GameObject obj, float startScale, float endScale, float duration)
