@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class GhostController : HeadTransformController
 {
-    void Update()
-    {
-        PlayerController();
-    }
+    private float _duration = 1;
 
     protected override void PlayerController()
     {
@@ -16,9 +13,35 @@ public class GhostController : HeadTransformController
             MoveHeadInXY();
             RotateHead();
         }
-        else
+    }
+
+    void GhostFailedAction()
+    {
+        StartCoroutine(HeadFaceTheCamera());
+    }
+    
+    IEnumerator HeadFaceTheCamera()
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < _duration)
         {
-            HeadFaceTheCamera();
+            float t = elapsedTime / _duration;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 180, 0), t);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+        
+        transform.rotation = Quaternion.Euler(0, 180, 0);
+    }
+
+    void OnEnable()
+    {
+        GameManager.Instance.OnMissionFailure += GhostFailedAction;
+    }
+
+    void OnDisable()
+    {
+        GameManager.Instance.OnMissionFailure -= GhostFailedAction;
     }
 }

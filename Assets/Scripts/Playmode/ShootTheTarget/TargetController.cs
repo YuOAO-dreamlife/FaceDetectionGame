@@ -7,12 +7,6 @@ public class TargetController : MonoBehaviour
     [SerializeField] private GameObject _destroyedVer;
     private MuzzleController _muzzleController;
 
-    void OnEnable()
-    {
-        _muzzleController = GameObject.Find("Muzzle").GetComponent<MuzzleController>();
-        _muzzleController.ShootTheTarget += DestroyTarget;
-    }
-
     void DestroyTarget(GameObject target)
     {
         if (target == gameObject)
@@ -20,6 +14,12 @@ public class TargetController : MonoBehaviour
             Instantiate(_destroyedVer, transform.position, transform.rotation);
             Destroy(gameObject);
         }
+    }
+
+    void OnEnable()
+    {
+        _muzzleController = GameObject.Find("Muzzle").GetComponent<MuzzleController>();
+        _muzzleController.ShootTheTarget += DestroyTarget;
     }
 
     void OnDisable()

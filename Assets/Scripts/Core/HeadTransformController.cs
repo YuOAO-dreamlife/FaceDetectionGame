@@ -7,13 +7,23 @@ public abstract class HeadTransformController : MonoBehaviour
     [SerializeField] private FaceLandmarkerRunner _landmarkInfo;
     [SerializeField] private Camera _mainCamera;
 
-    [SerializeField] protected int CameraToUIOffset;
+    private int CameraToUIOffset;
     [SerializeField] protected int UIWidth;
     [SerializeField] protected int UIHeight;
     
     private Vector3 _smoothVelocity;
     [SerializeField] private float _moveSmoothTime = 0.1f;
-    [SerializeField] private float _rotationSmoothTime = 0.1f;
+    [SerializeField] private float _rotationSmoothSpeed = 30f;
+
+    void Start()
+    {
+        CameraToUIOffset = (int)Mathf.Abs(transform.position.z - _mainCamera.transform.position.z);
+    }
+
+    void Update()
+    {
+        PlayerController();
+    }
 
     protected abstract void PlayerController();
 
@@ -32,12 +42,7 @@ public abstract class HeadTransformController : MonoBehaviour
         Vector3 noseTip = new Vector3(_landmarkInfo.NoseTipLandmark.x, 1 - _landmarkInfo.NoseTipLandmark.y, _landmarkInfo.NoseTipLandmark.z);
         Vector3 headPos = (leftEar + rightEar) / 2;
         Quaternion currentHeadRot = Quaternion.LookRotation(noseTip - headPos, Vector3.Cross(noseTip - rightEar, noseTip - leftEar));
-        transform.rotation = Quaternion.Slerp(transform.rotation, currentHeadRot, _rotationSmoothTime);
-    }
-
-    protected void HeadFaceTheCamera()
-    {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 180, 0), _rotationSmoothTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, currentHeadRot, _rotationSmoothSpeed * Time.deltaTime);
     }
 
     protected bool eyeBlink()

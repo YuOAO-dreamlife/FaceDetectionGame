@@ -1682,7 +1682,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _landmarkInfo: {fileID: 8395900005616488613}
   _mainCamera: {fileID: 4599821608653497268}
-  CameraToUIOffset: 1
   UIWidth: 50
   UIHeight: 25
   _moveSmoothTime: 0.1

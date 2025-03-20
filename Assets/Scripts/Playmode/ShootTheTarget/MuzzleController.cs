@@ -11,11 +11,6 @@ public class MuzzleController : HeadTransformController
 
     public event Action<GameObject> ShootTheTarget;
 
-    void Update()
-    {
-        PlayerController();
-    }
-
     protected override void PlayerController()
     {
         MoveHeadInXY();
