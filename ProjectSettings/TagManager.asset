@@ -7,6 +7,7 @@ TagManager:
   - Global Resource
   - Light
   - Target
+  - Goal
   layers:
   - Default
   - TransparentFX

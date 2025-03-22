@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class LightController : MonoBehaviour
@@ -12,6 +11,7 @@ public class LightController : MonoBehaviour
     [SerializeField] private float _Ymin;
     [SerializeField] private float _speed;
 
+    [SerializeField] private float _gatherTime = 0.1f;
     [SerializeField] private float _gatherSpotAngle;
     [SerializeField] private float _gatherIntensity;
 
@@ -43,24 +43,9 @@ public class LightController : MonoBehaviour
     void GatherToPlayer()
     {
         Vector3 ghostPos = new Vector3(_ghost.transform.position.x, _ghost.transform.position.y, 0);
-        StartCoroutine(MoveToPos(transform.position, ghostPos, 0.1f));
+        StartCoroutine(TransformUtil.MoveToPos(transform, transform.position, ghostPos, _gatherTime));
         _light.spotAngle = _gatherSpotAngle;
         _light.intensity = _gatherIntensity;
-    }
-
-    IEnumerator MoveToPos(Vector3 startPos, Vector3 endPos, float duration)
-    {
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            float t = elapsedTime / duration;
-            transform.position = Vector3.Lerp(startPos, endPos, t);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.position = endPos;
     }
 
     void LightDisappear()

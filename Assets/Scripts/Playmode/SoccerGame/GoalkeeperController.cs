@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GoalkeeperController : HeadTransformController
 {
     [SerializeField] private Renderer _renderer;
     [SerializeField] private Material _huhFace;
+    [SerializeField] private float _failedAnimationDuration = 1.5f;
+    [SerializeField] private float _lookBackRotationY = 150;
 
     protected override void PlayerController()
     {
@@ -15,9 +15,24 @@ public class GoalkeeperController : HeadTransformController
         }
     }
 
-    void GoalkeeperLookBack()
+    void GoalkeeperFailedAction()
     {
         _renderer.material = _huhFace;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 160, 0), 0.5f * Time.deltaTime);
+        if (transform.position.x >= 80)
+        {
+            _lookBackRotationY = -_lookBackRotationY;
+        }
+        Quaternion lookBackRotation = Quaternion.Euler(0, _lookBackRotationY, 0);
+        StartCoroutine(TransformUtil.RotateToQuat(transform, transform.rotation, lookBackRotation, _failedAnimationDuration));
+    }
+
+    void OnEnable()
+    {
+        GameManager.Instance.OnMissionFailure += GoalkeeperFailedAction;
+    }
+
+    void OnDisable()
+    {
+        GameManager.Instance.OnMissionFailure -= GoalkeeperFailedAction;
     }
 }

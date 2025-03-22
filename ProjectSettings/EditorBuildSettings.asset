@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ShootTheTarget.unity
     guid: 79a6c153ff967864594b10859b4c581d
   - enabled: 1
+    path: Assets/Scenes/SoccerGame.unity
+    guid: f97d1835fc5e62d4fb410e73bc0bc891
+  - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 03323a90cb09c564690a4fc988af810c
   m_configObjects: {}

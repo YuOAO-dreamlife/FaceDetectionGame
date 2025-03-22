@@ -1684,8 +1684,8 @@ MonoBehaviour:
   _mainCamera: {fileID: 4599821608653497268}
   UIWidth: 50
   UIHeight: 25
-  _moveSmoothTime: 0.1
-  _rotationSmoothTime: 0.1
+  _moveSmoothTime: 0.05
+  _rotationSmoothSpeed: 30
   _impactEffect: {fileID: 1025285306637258, guid: d8f0099df63275647a8bcf646df1ca00, type: 3}
   _fireRate: 0.5
 --- !u!1 &3779687467148664017

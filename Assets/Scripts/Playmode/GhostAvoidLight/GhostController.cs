@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostController : HeadTransformController
 {
-    private float _duration = 1;
+    [SerializeField] private float _failedAnimationDuration = 1;
+    [SerializeField] private float _faceCameraRotationY = 180;
 
     protected override void PlayerController()
     {
@@ -17,22 +16,8 @@ public class GhostController : HeadTransformController
 
     void GhostFailedAction()
     {
-        StartCoroutine(HeadFaceTheCamera());
-    }
-    
-    IEnumerator HeadFaceTheCamera()
-    {
-        float elapsedTime = 0;
-
-        while (elapsedTime < _duration)
-        {
-            float t = elapsedTime / _duration;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 180, 0), t);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        
-        transform.rotation = Quaternion.Euler(0, 180, 0);
+        Quaternion faceCameraRotation = Quaternion.Euler(0, _faceCameraRotationY, 0);
+        StartCoroutine(TransformUtil.RotateToQuat(transform, transform.rotation, faceCameraRotation, _failedAnimationDuration));
     }
 
     void OnEnable()

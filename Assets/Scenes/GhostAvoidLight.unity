@@ -1404,8 +1404,10 @@ MonoBehaviour:
   _mainCamera: {fileID: 4599821608653497268}
   UIWidth: 200
   UIHeight: 100
-  _moveSmoothTime: 0.1
+  _moveSmoothTime: 0.05
   _rotationSmoothSpeed: 30
+  _failedAnimationDuration: 0.1
+  _faceCameraRotationY: 180
 --- !u!1001 &8395900005616488612
 PrefabInstance:
   m_ObjectHideFlags: 0
