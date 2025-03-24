@@ -14,10 +14,10 @@ public class InstructionState : UIStateBase
     {
         _manager.AudioSource.PlayOneShot(_intermissionSoundtrack);
 
-        yield return ScaleObject(_manager.Instruction, 0.0f, 0.4f, _instructionScaleDuration);
+        yield return TransformUtil.ScaleObject(_manager.Instruction, 0.0f, 0.4f, _instructionScaleDuration);
         yield return new WaitForSeconds(_instructionDelay);
 
-        yield return ScaleObject(_manager.Instruction, 0.4f, 0.0f, _instructionScaleDuration);
+        yield return TransformUtil.ScaleObject(_manager.Instruction, 0.4f, 0.0f, _instructionScaleDuration);
 
         _manager.Instruction.SetActive(false);
 

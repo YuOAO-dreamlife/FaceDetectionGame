@@ -12,11 +12,12 @@ public class HintState : UIStateBase
 
     IEnumerator ShowHint()
     {
-        yield return ScaleObject(_manager.HintText, 0.0f, 0.15f, _hintScaleDuration);
+        yield return TransformUtil.ScaleObject(_manager.HintText, 0.0f, 0.15f, _hintScaleDuration);
         yield return new WaitForSeconds(_hintDelay);
 
         _manager.HintText.GetComponent<RectTransform>().localScale = Vector3.zero;
 
         _manager.ChangeState(new UIZoomInState(_manager));
     }
+    
 }

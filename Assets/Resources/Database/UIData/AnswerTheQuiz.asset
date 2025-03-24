@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9611ab84fa2a734a98cb67f8f323c15, type: 3}
+  m_Name: AnswerTheQuiz
+  m_EditorClassIdentifier: 
+  InstructionImage: {fileID: 21300000, guid: b67d0243e0611c04f912280934927e9b, type: 3}
+  InstructionText: "\u773C\u775B\u5411\u5DE6\u6216\u5411\u53F3\u770B\uFF0C\u4EE5\u9078\u64C7\u9078\u9805"
+  HintText: "\u56DE\u7B54\u984C\u76EE!"

@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7410617450f82d14b87a88beedd1c54b, type: 2}
-  m_sharedMaterial: {fileID: -1412360528257872664, guid: 7410617450f82d14b87a88beedd1c54b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9f36629c97b9574469184c1e89fda4cd, type: 2}
+  m_sharedMaterial: {fileID: -8839773574251196160, guid: 9f36629c97b9574469184c1e89fda4cd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -445,8 +445,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7410617450f82d14b87a88beedd1c54b, type: 2}
-  m_sharedMaterial: {fileID: -1412360528257872664, guid: 7410617450f82d14b87a88beedd1c54b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9f36629c97b9574469184c1e89fda4cd, type: 2}
+  m_sharedMaterial: {fileID: -8839773574251196160, guid: 9f36629c97b9574469184c1e89fda4cd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1354,6 +1354,7 @@ MonoBehaviour:
   - {fileID: 3528168497492501327}
   - {fileID: 2704477456742152960}
   LifeUIDead: {fileID: 21300000, guid: 018abdba5c46ba24d857e4269761a080, type: 3}
+  button: {fileID: 0}
 --- !u!82 &8394159270742449909
 AudioSource:
   m_ObjectHideFlags: 0

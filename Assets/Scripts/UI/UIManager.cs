@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     public GameObject BlackUI;
     public GameObject[] LifeUI;
     public Sprite LifeUIDead;
+    public GameObject button;
 
     void Start()
     {
@@ -63,10 +64,23 @@ public class UIManager : MonoBehaviour
                 LevelText.GetComponent<TMP_Text>().text = "Result\nLevel " + GameManager.Instance.PassedMissionCount;
                 break;
 
+            case "Credits":
+                LevelText.GetComponent<TMP_Text>().text = "Read the contents";
+                break;
+
             default:
                 LevelText.GetComponent<TMP_Text>().text = "Level " + GameManager.Instance.PassedMissionCount;
                 break;
         }
+    }
+
+    public void OnClickCreditsOrBackButton()
+    {
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
+        {
+            GameManager.Instance.PressTheCreditsButton();
+        }
+        GameManager.Instance.ChangeTheScene();
     }
 
     public void ChangeState(UIStateBase newState)
@@ -86,6 +100,10 @@ public class UIManager : MonoBehaviour
 
             case "GameOver":
                 ChangeState(new GameOverState(this));
+                break;
+
+            case "Credits":
+                ChangeState(new CreditsState(this));
                 break;
 
             default:

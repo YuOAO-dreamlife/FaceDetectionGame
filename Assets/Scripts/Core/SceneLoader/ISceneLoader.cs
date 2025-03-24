@@ -6,4 +6,5 @@ public interface ISceneLoader
     void SwitchToNextScene();
     void SwitchToGameOver();
     void SwitchToTitleScreen();
+    void SwitchToCredits();
 }

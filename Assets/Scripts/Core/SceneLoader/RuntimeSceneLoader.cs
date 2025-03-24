@@ -3,40 +3,49 @@ using UnityEngine.SceneManagement;
 
 public class RuntimeSceneLoader : ISceneLoader
 {
-    AsyncOperation operation;
+    private int _currentNextGameSceneIndex;
+    AsyncOperation _preloadNextScene;
+    AsyncOperation _preloadGameOver;
+    AsyncOperation _preloadTitleScreen;
 
     public void PreloadNextScene()
     {
         int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        int lastGameSceneIndex = SceneManager.sceneCountInBuildSettings - 2;
-        operation = SceneManager.LoadSceneAsync(nextIndex > lastGameSceneIndex ? 1 : nextIndex);
-        operation.allowSceneActivation = false;
+        int lastGameSceneIndex = SceneManager.sceneCountInBuildSettings - 3;
+        _currentNextGameSceneIndex = nextIndex > lastGameSceneIndex ? 1 : nextIndex;
+        _preloadNextScene = SceneManager.LoadSceneAsync(_currentNextGameSceneIndex);
+        _preloadNextScene.allowSceneActivation = false;
     }
 
     public void PreloadGameOver()
     {
-        operation = SceneManager.LoadSceneAsync("GameOver");
-        operation.allowSceneActivation = false;
+        _preloadGameOver = SceneManager.LoadSceneAsync("GameOver");
+        _preloadGameOver.allowSceneActivation = false;
     }
 
     public void PreloadTitleScreen()
     {
-        operation = SceneManager.LoadSceneAsync("TitleScreen");
-        operation.allowSceneActivation = false;
+        _preloadTitleScreen = SceneManager.LoadSceneAsync("TitleScreen");
+        _preloadTitleScreen.allowSceneActivation = false;
     }
 
     public void SwitchToNextScene()
     {
-        operation.allowSceneActivation = true;
+        _preloadNextScene.allowSceneActivation = true;
     }
 
     public void SwitchToGameOver()
     {
-        operation.allowSceneActivation = true;
+        _preloadGameOver.allowSceneActivation = true;
     }
 
     public void SwitchToTitleScreen()
     {
-        operation.allowSceneActivation = true;
+        _preloadTitleScreen.allowSceneActivation = true;
+    }
+
+    public void SwitchToCredits()
+    {
+        SceneManager.LoadScene("Credits");
     }
 }

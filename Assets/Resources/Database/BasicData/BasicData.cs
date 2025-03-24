@@ -11,4 +11,5 @@ public enum CountdownType
 {
     KeepAliveInTime,
     TimeLimitMission,
+    TimeLimitButMaybeEarlyEnd,
 }

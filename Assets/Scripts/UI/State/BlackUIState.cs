@@ -12,7 +12,7 @@ public class BlackUIState : UIStateBase
 
     IEnumerator BlackOutScreen()
     {
-        yield return FadeObject(_manager.BlackUI, 0.0f, 1.0f, _blackUITransparentDuration);
+        yield return TransformUtil.FadeObject(_manager.BlackUI, 0.0f, 1.0f, _blackUITransparentDuration);
         yield return new WaitForSeconds(1);
 
         GameManager.Instance.ChangeTheScene();

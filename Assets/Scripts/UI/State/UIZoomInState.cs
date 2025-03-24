@@ -12,9 +12,9 @@ public class UIZoomInState : UIStateBase
 
     IEnumerator UIZoomIn()
     {
-        yield return ScaleObject(_manager.gameObject, 1.0f, 4.0f, _uIScaleDuration);
+        yield return TransformUtil.ScaleObject(_manager.gameObject, 1.0f, 4.0f, _uIScaleDuration);
 
-        yield return FadeObject(_manager.gameObject, 1.0f, 0.0f, _uITransparentDuration);
+        yield return TransformUtil.FadeObject(_manager.gameObject, 1.0f, 0.0f, _uITransparentDuration);
 
         GameManager.Instance.StartTheMission();
 

@@ -16,7 +16,7 @@ public class GameOverState : UIStateBase
 
         _manager.AudioSource.PlayOneShot(_gameOverSoundtrack);
 
-        yield return ScaleObject(_manager.HintText, 0.0f, 0.15f, _hintScaleDuration);
+        yield return TransformUtil.ScaleObject(_manager.HintText, 0.0f, 0.15f, _hintScaleDuration);
         yield return new WaitForSeconds(7);
 
         _manager.ChangeState(new BlackUIState(_manager));

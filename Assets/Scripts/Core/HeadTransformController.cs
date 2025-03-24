@@ -12,12 +12,13 @@ public abstract class HeadTransformController : MonoBehaviour
     [SerializeField] protected int UIHeight;
     
     private Vector3 _smoothVelocity;
-    [SerializeField] private float _moveSmoothTime = 0.05f;
+    [SerializeField] private float _moveSmoothTime;
     [SerializeField] private float _rotationSmoothSpeed = 30f;
 
     void Start()
     {
         CameraToUIOffset = (int)Mathf.Abs(transform.position.z - _mainCamera.transform.position.z);
+        _moveSmoothTime = 0.1f;
     }
 
     void Update()

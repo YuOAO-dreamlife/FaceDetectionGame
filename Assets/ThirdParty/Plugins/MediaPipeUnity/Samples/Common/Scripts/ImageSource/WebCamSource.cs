@@ -132,7 +132,11 @@ namespace Mediapipe.Unity
 
       if (availableSources != null && availableSources.Length > 0)
       {
-        webCamDevice = availableSources[0];
+        #if UNITY_ANDROID || UNITY_IOS
+          webCamDevice = availableSources[1];
+        #else
+          webCamDevice = availableSources[0];
+        #endif 
       }
     }
 

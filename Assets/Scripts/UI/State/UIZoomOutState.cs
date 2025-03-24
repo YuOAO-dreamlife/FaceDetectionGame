@@ -36,9 +36,9 @@ public class UIZoomOutState : UIStateBase
             _manager.AudioSource.PlayOneShot(_successSoundtrack);
         }
 
-        yield return FadeObject(_manager.gameObject, 0.0f, 1.0f, _uITransparentDuration);
+        yield return TransformUtil.FadeObject(_manager.gameObject, 0.0f, 1.0f, _uITransparentDuration);
 
-        yield return ScaleObject(_manager.gameObject, 4.0f, 1.0f, _uIScaleDuration);
+        yield return TransformUtil.ScaleObject(_manager.gameObject, 4.0f, 1.0f, _uIScaleDuration);
 
         _manager.ChangeState(new UIResultState(_manager));
     }

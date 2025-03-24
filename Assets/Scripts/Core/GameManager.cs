@@ -154,6 +154,19 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    private bool _creditsButtonPress;
+    public bool CreditsButtonPress
+    {
+        get { return _creditsButtonPress; }
+        private set
+        {
+            if (_creditsButtonPress != value)
+            {
+                _creditsButtonPress = value;
+            }
+        }
+    }
 #endregion
 
     void Awake()
@@ -192,12 +205,17 @@ public class GameManager : MonoBehaviour
         MissionFailure = false;
         MissionEnd = false;
         ChangeScene = false;
+        CreditsButtonPress = false;
     }
 
 #region 直接改變狀態的方法
     void AddMissionCount()
     {
-        if (SceneManager.GetActiveScene().name != "GameOver" && SceneManager.GetActiveScene().name != "TitleScreen")
+        if (
+            SceneManager.GetActiveScene().name != "GameOver" 
+            && SceneManager.GetActiveScene().name != "TitleScreen"
+            && SceneManager.GetActiveScene().name != "Credits"
+        )
         {
             PassedMissionCount++;
         }
@@ -232,6 +250,11 @@ public class GameManager : MonoBehaviour
     {
         ChangeScene = true;
     }
+
+    public void PressTheCreditsButton()
+    {
+        CreditsButtonPress = true;
+    }
 #endregion
 
 #region 改變時呼叫的方法
@@ -253,6 +276,10 @@ public class GameManager : MonoBehaviour
             MissionComplete();
         }
         else if (_currentData.CountdownType == CountdownType.TimeLimitMission && !MissionSuccess)
+        {
+            MissionFailed();
+        }
+        else if(_currentData.CountdownType == CountdownType.TimeLimitButMaybeEarlyEnd && !MissionSuccess && !MissionFailure)
         {
             MissionFailed();
         }
@@ -284,6 +311,18 @@ public class GameManager : MonoBehaviour
                 PreBackToUIDelay = 0;
             }
         }
+        else if (_currentData.CountdownType == CountdownType.TimeLimitButMaybeEarlyEnd)
+        {
+            if (CurrentTime > 0)
+            {
+                PreBackToUIDelay = 2;
+                CurrentTime = PreBackToUIDelay;
+            }
+            else
+            {
+                PreBackToUIDelay = 0;
+            }
+        }
     }
 
     void LoadNextScene()
@@ -291,10 +330,21 @@ public class GameManager : MonoBehaviour
         switch (SceneManager.GetActiveScene().name)
         {
             case "TitleScreen":
-                SceneLoader.SwitchToNextScene();
+                if (CreditsButtonPress)
+                {
+                    SceneLoader.SwitchToCredits();
+                }
+                else
+                {
+                    SceneLoader.SwitchToNextScene();
+                }
                 break;
 
             case "GameOver":
+                SceneLoader.SwitchToTitleScreen();
+                break;
+
+            case "Credits":
                 SceneLoader.SwitchToTitleScreen();
                 break;
 

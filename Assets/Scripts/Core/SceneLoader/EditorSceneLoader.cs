@@ -9,7 +9,7 @@ public class EditorSceneLoader : ISceneLoader
     public void SwitchToNextScene()
     {
         int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        int lastGameSceneIndex = SceneManager.sceneCountInBuildSettings - 2;
+        int lastGameSceneIndex = SceneManager.sceneCountInBuildSettings - 3;
         SceneManager.LoadScene(nextIndex > lastGameSceneIndex ? 1 : nextIndex);
     }
 
@@ -21,5 +21,10 @@ public class EditorSceneLoader : ISceneLoader
     public void SwitchToTitleScreen()
     {
         SceneManager.LoadScene("TitleScreen");
+    }
+
+    public void SwitchToCredits()
+    {
+        SceneManager.LoadScene("Credits");
     }
 }
