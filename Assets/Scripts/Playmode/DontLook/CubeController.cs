@@ -1,0 +1,194 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class CubeController : MonoBehaviour
+{
+    [SerializeField] private float _amplitude = 0.1f;
+    [SerializeField] private float _frequency = 1f;
+    [SerializeField] private float _rotateTime;
+    private Vector3 _initialPosition;
+    private Quaternion _initialRotation;
+
+    [SerializeField] private Transform[] _raycastOrigins;
+    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private List<string> _detectedDirections = new List<string>();
+    [SerializeField] private List<GameObject> _detectedFaces = new List<GameObject>();
+    [SerializeField] private List<Image> _directionImages = new List<Image>();
+    private float _rayDistance = 3.5f;
+
+    [SerializeField] private GameObject _front;
+    [SerializeField] private GameObject _back;
+    [SerializeField] private GameObject _top;
+    [SerializeField] private GameObject _bottom;
+    [SerializeField] private GameObject _left;
+    [SerializeField] private GameObject _right;
+    [SerializeField] private Transform[] _raycastFrontOrigins;
+    [SerializeField] private Transform[] _raycastBackOrigins;
+    [SerializeField] private Transform[] _raycastTopOrigins;
+    [SerializeField] private Transform[] _raycastBottomOrigins;
+    [SerializeField] private Transform[] _raycastLeftOrigins;
+    [SerializeField] private Transform[] _raycastRightOrigins;
+    
+    void Start()
+    {
+        _initialPosition = transform.position;
+        _initialRotation = transform.rotation;
+        StartRotateCube();
+    }
+
+    void Update()
+    {
+        ShakingEffect();
+    }
+
+    void ShakingEffect()
+    {
+        // 使用sin和cos在XZ平面上產生平滑的晃動效果
+        float offsetX = _amplitude * Mathf.Sin(Time.time * _frequency);
+        float offsetZ = _amplitude * Mathf.Cos(Time.time * _frequency);
+        transform.position = _initialPosition + new Vector3(offsetX, 0, offsetZ);
+
+        // // 輕微旋轉
+        // float angle = _amplitude * 10 * Mathf.Sin(Time.time * _frequency);
+        // transform.rotation = _initialRotation * Quaternion.Euler(0, 0, angle);
+    }
+
+    void StartRotateCube()
+    {
+        StartCoroutine(RotateCube());
+    }
+
+    IEnumerator RotateCube()
+    {
+        // 嘗試旋轉到含有指定的方向數量
+        GameManager.Instance.SetCurrentTime(99);
+        do
+        {
+            // 隨機旋轉
+            DetectRotateCubes(_raycastFrontOrigins, _front);
+            yield return StartCoroutine(RandomRotateZ(_front));
+            DetectRotateCubes(_raycastBackOrigins, _back);
+            yield return StartCoroutine(RandomRotateZ(_back));
+            DetectRotateCubes(_raycastTopOrigins, _top);
+            yield return StartCoroutine(RandomRotateY(_top));
+            DetectRotateCubes(_raycastBottomOrigins, _bottom);
+            yield return StartCoroutine(RandomRotateY(_bottom));
+            DetectRotateCubes(_raycastLeftOrigins, _left);
+            yield return StartCoroutine(RandomRotateX(_left));
+            DetectRotateCubes(_raycastRightOrigins, _right);
+            yield return StartCoroutine(RandomRotateX(_right));
+
+            DetectDirection();
+        } while (_detectedDirections.Count == 4 || _detectedDirections.Count == 1);
+
+        AppearDirections();
+
+        // 已完成旋轉，開始正式計時
+        GameManager.Instance.SetCurrentTimeToUIData();
+        
+    }
+
+    void DetectRotateCubes(Transform[] raycastOrigins, GameObject pivot)
+    {
+        foreach (Transform origin in raycastOrigins)
+        {
+            Ray ray = new Ray(origin.position, origin.forward);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, _rayDistance, _layerMask))
+            {
+                hit.collider.transform.parent.SetParent(pivot.transform);
+            }
+        }
+    }
+
+    IEnumerator RandomRotateZ(GameObject pivot)
+    {
+        int rotateCounts = Random.Range(1, 4);
+        for (int count = 1; count <= rotateCounts; count++)
+        {
+            Quaternion startQuat = pivot.transform.rotation;
+            Quaternion endQuat = startQuat * Quaternion.Euler(0, 0, 90);
+            yield return StartCoroutine(TransformUtil.RotateToQuat(pivot.transform, startQuat, endQuat, _rotateTime));
+        }
+    }
+
+    IEnumerator RandomRotateY(GameObject pivot)
+    {
+        int rotateCounts = Random.Range(1, 4);
+        for (int count = 1; count <= rotateCounts; count++)
+        {
+            Quaternion startQuat = pivot.transform.rotation;
+            Quaternion endQuat = startQuat * Quaternion.Euler(0, 90, 0);
+            yield return StartCoroutine(TransformUtil.RotateToQuat(pivot.transform, startQuat, endQuat, _rotateTime));
+        }
+    }
+
+    IEnumerator RandomRotateX(GameObject pivot)
+    {
+        int rotateCounts = Random.Range(1, 4);
+        for (int count = 1; count <= rotateCounts; count++)
+        {
+            Quaternion startQuat = pivot.transform.rotation;
+            Quaternion endQuat = startQuat * Quaternion.Euler(90, 0, 0);
+            yield return StartCoroutine(TransformUtil.RotateToQuat(pivot.transform, startQuat, endQuat, _rotateTime));
+        }
+    }
+
+    void DetectDirection()
+    {
+        _detectedDirections.Clear();
+        _detectedFaces.Clear();
+        foreach (Transform origin in _raycastOrigins)
+        {
+            Ray ray = new Ray(origin.position, origin.forward);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, _rayDistance, _layerMask))
+            {
+                GameObject direction = hit.collider.gameObject;
+                if (!_detectedDirections.Contains(direction.name) && direction.name != "None")
+                {
+                    _detectedDirections.Add(direction.name);
+                    Debug.Log("新增方向：" + direction.name);
+                }
+                _detectedFaces.Add(direction);
+            }
+        }
+    }
+
+    void AppearDirections()
+    {
+        for (int index = 0; index < _directionImages.Count; index++)
+        {
+            if (_detectedFaces[index].name != "None")
+            {
+                _directionImages[index].sprite = Resources.Load<Sprite>("Sprites/Gameplay/" + _detectedFaces[index].name);
+                _directionImages[index].color = new Color(_directionImages[index].color.r, _directionImages[index].color.g, _directionImages[index].color.b, 255);
+            }
+        }
+    }
+
+    void DisappearDirections()
+    {
+        for (int index = 0; index < _directionImages.Count; index++)
+        {
+            if (_detectedFaces[index].name != "None")
+            {
+                _directionImages[index].color = new Color(_directionImages[index].color.r, _directionImages[index].color.g, _directionImages[index].color.b, 0);
+            }
+        }
+    }
+
+    void OnEnable()
+    {
+        GameManager.Instance.OnMissionStart += StartRotateCube;
+    }
+
+    void OnDisable()
+    {
+        GameManager.Instance.OnMissionStart -= StartRotateCube;
+    }
+}

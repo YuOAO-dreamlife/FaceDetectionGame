@@ -12,7 +12,8 @@ public class MuzzleController : HeadTransformController
     protected override void PlayerController()
     {
         MoveHeadInXY();
-        if (GameManager.Instance.MissionStart && eyeBlink() && Time.time > _nextFire)
+        CheckEyeBlinkOrNot();
+        if (GameManager.Instance.MissionStart && EyeBlink && Time.time > _nextFire)
         {
             _nextFire = Time.time + _fireRate; // 下次可發射的門檻時間(_nextFire) = 現在經過時間 + 發射緩衝時間
             Shoot();

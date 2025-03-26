@@ -1,3 +1,4 @@
+using System;
 using Mediapipe.Unity.Sample.FaceLandmarkDetection;
 using UnityEngine;
 
@@ -14,6 +15,78 @@ public abstract class HeadTransformController : MonoBehaviour
     private Vector3 _smoothVelocity;
     [SerializeField] private float _moveSmoothTime;
     [SerializeField] private float _rotationSmoothSpeed = 30f;
+
+    private bool _eyeBlink;
+    public event Action OnEyeBlink;
+    protected bool EyeBlink
+    {
+        get { return _eyeBlink; }
+        private set
+        {
+            if (_eyeBlink != value)
+            {
+                _eyeBlink = value;
+                if (_eyeBlink)
+                {
+                    OnEyeBlink?.Invoke();
+                }
+            }
+        }
+    }
+
+    private bool _eyeLookInLeft;
+    public event Action OnEyeLookInLeft;
+    protected bool EyeLookInLeft
+    {
+        get { return _eyeLookInLeft; }
+        private set
+        {
+            if (_eyeLookInLeft != value)
+            {
+                _eyeLookInLeft = value;
+                if (_eyeLookInLeft)
+                {
+                    OnEyeLookInLeft?.Invoke();
+                }
+            }
+        }
+    }
+
+    private bool _eyeLookInRight;
+    public event Action OnEyeLookInRight;
+    protected bool EyeLookInRight
+    {
+        get { return _eyeLookInRight; }
+        private set
+        {
+            if (_eyeLookInRight != value)
+            {
+                _eyeLookInRight = value;
+                if (_eyeLookInRight)
+                {
+                    OnEyeLookInRight?.Invoke();
+                }
+            }
+        }
+    }
+
+    private bool _headRotateLeft;
+    public event Action OnHeadRotateLeft;
+    protected bool HeadRotateLeft
+    {
+        get { return _headRotateLeft; }
+        private set
+        {
+            if (_headRotateLeft != value)
+            {
+                _headRotateLeft = value;
+                if (_headRotateLeft)
+                {
+                    OnHeadRotateLeft?.Invoke();
+                }
+            }
+        }
+    }
 
     void Start()
     {
@@ -46,18 +119,26 @@ public abstract class HeadTransformController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, currentHeadRot, _rotationSmoothSpeed * Time.deltaTime);
     }
 
-    protected bool eyeBlink()
+    protected void CheckEyeBlinkOrNot()
     {
-        return _landmarkInfo.eyeBlink;
+        EyeBlink = _landmarkInfo.eyeBlink;
     }
 
-    protected bool eyeLookInLeft()
+    protected void CheckEyeLookLeftOrNot()
     {
-        return _landmarkInfo.eyeLookInLeft;
+        EyeLookInLeft = _landmarkInfo.eyeLookInLeft;
     }
 
-    protected bool eyeLookInRight()
+    protected void CheckEyeLookRightOrNot()
     {
-        return _landmarkInfo.eyeLookInRight;
+        EyeLookInRight =  _landmarkInfo.eyeLookInRight;
     }
+
+    // protected void CheckHeadRotateLeftOrNot()
+    // {
+    //     if (transform.rotation.y <)
+    //     {
+            
+    //     }
+    // }
 }

@@ -12,7 +12,7 @@ public class QuizGenerator : MonoBehaviour
     [SerializeField] private GameObject _correctL;
     [SerializeField] private GameObject _wrongL;
 
-    [SerializeField] private string[] _quizStrings = new string[2];
+    private string[] _quizStrings = new string[]{"哪個比較大", "哪個比較小"};
     private string _quizString;
 
     private int _rightOperand1;
@@ -23,7 +23,7 @@ public class QuizGenerator : MonoBehaviour
     private int _leftOperand2;
     private int _leftResult;
 
-    [SerializeField] private char[] _operators = new char[3];
+    private char[] _operators = new char[]{'+', '-', '×'};
     private char _rightOperator;
     private char _leftOperator;
 
@@ -128,13 +128,13 @@ public class QuizGenerator : MonoBehaviour
 
     void OnEnable()
     {
-        _eyeController.OnAnswerRight += CheckRightAnswer;
-        _eyeController.OnAnswerLeft += CheckLeftAnswer;
+        _eyeController.OnEyeLookInRight += CheckRightAnswer;
+        _eyeController.OnEyeLookInLeft += CheckLeftAnswer;
     }
 
     void OnDisable()
     {
-        _eyeController.OnAnswerRight -= CheckRightAnswer;
-        _eyeController.OnAnswerLeft -= CheckLeftAnswer;
+        _eyeController.OnEyeLookInRight -= CheckRightAnswer;
+        _eyeController.OnEyeLookInLeft -= CheckLeftAnswer;
     }
 }

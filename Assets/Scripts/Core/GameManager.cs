@@ -221,6 +221,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SetCurrentTime(int time)
+    {
+        CurrentTime = time;
+    }
+
+    public void SetCurrentTimeToUIData()
+    {
+        CurrentTime = _currentData.GameTime;
+    }
+
     public void LoseALife()
     {
         LifeCount--;
@@ -265,7 +275,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CountdownCoroutine()
     {
-        CurrentTime = _currentData.GameTime;
+        SetCurrentTimeToUIData();
         while (CurrentTime > 0)
         {
             yield return new WaitForSeconds(1);
@@ -296,7 +306,7 @@ public class GameManager : MonoBehaviour
             else if (MissionFailure)
             {
                 PreBackToUIDelay = 2;
-                CurrentTime = PreBackToUIDelay;
+                SetCurrentTime(PreBackToUIDelay);
             }
         }
         else if (_currentData.CountdownType == CountdownType.TimeLimitMission)
@@ -304,7 +314,7 @@ public class GameManager : MonoBehaviour
             if (MissionSuccess)
             {
                 PreBackToUIDelay = 2;
-                CurrentTime = PreBackToUIDelay;
+                SetCurrentTime(PreBackToUIDelay);
             }
             else if (MissionFailure)
             {
@@ -316,7 +326,7 @@ public class GameManager : MonoBehaviour
             if (CurrentTime > 0)
             {
                 PreBackToUIDelay = 2;
-                CurrentTime = PreBackToUIDelay;
+                SetCurrentTime(PreBackToUIDelay);
             }
             else
             {
