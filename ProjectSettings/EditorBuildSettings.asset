@@ -9,17 +9,17 @@ EditorBuildSettings:
     path: Assets/Scenes/TitleScreen.unity
     guid: 89b1e5b07961ba044af87cc618463773
   - enabled: 1
-    path: Assets/Scenes/AnswerTheQuiz.unity
-    guid: f9ebe2d0cb009b74db2a03b5836d0a0f
-  - enabled: 1
-    path: Assets/Scenes/GhostAvoidLight.unity
-    guid: 313b5efb4c347514695406455663bda2
-  - enabled: 1
     path: Assets/Scenes/ShootTheTarget.unity
     guid: 79a6c153ff967864594b10859b4c581d
   - enabled: 1
     path: Assets/Scenes/SoccerGame.unity
     guid: f97d1835fc5e62d4fb410e73bc0bc891
+  - enabled: 1
+    path: Assets/Scenes/AnswerTheQuiz.unity
+    guid: f9ebe2d0cb009b74db2a03b5836d0a0f
+  - enabled: 1
+    path: Assets/Scenes/GhostAvoidLight.unity
+    guid: 313b5efb4c347514695406455663bda2
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 03323a90cb09c564690a4fc988af810c

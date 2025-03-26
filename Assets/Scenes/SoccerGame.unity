@@ -1098,7 +1098,7 @@ MonoBehaviour:
   _rotateStage: {fileID: 4325591410040978165}
   _generatePos: {fileID: 778715666}
   _shootEffectPos: {fileID: 1556155421}
-  _shootEffect: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
+  _shootEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
   _rotateSpeed: 10
   _fireForceRange: {x: 8, y: 11}
   _durationRange: {x: 1.567123, y: 2}
