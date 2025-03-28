@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set;}
     public ISceneLoader SceneLoader;
     [SerializeField] private BasicData _currentData;
+    private UIManager _uIManager;
 
 #region 變數 & 狀態宣告
     private int _passedMissionCount;
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
     }
 
     [SerializeField] private int _lifeCount;
-    [SerializeField] private int _originalLifeCount = 4;
+    public int OriginalLifeCount = 4;
     public int LifeCount
     {
         get { return _lifeCount;}
@@ -197,9 +198,10 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "TitleScreen")
         {
             PassedMissionCount = 0;
-            LifeCount = _originalLifeCount;
+            _uIManager = GameObject.Find("UI Objects").GetComponent<UIManager>();
+            OriginalLifeCount = _uIManager.LifeUI.Length;
+            LifeCount = OriginalLifeCount;
         }
-
         MissionStart = false;
         MissionSuccess = false;
         MissionFailure = false;

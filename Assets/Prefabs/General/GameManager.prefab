@@ -45,17 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f25c880f0c51eb40808482c71612af9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameStart: 0
-  countDownFinish: 0
-  success: 0
-  failed: 0
-  gameEnd: 0
-  changeScene: 0
-  countOfScenesHasLoaded: 0
-  lifeCount: 4
-  originalLifeCount: 4
-  countDownType: {fileID: 0}
-  leftTime: 0
+  _currentData: {fileID: 0}
+  _lifeCount: 0
+  OriginalLifeCount: 3
 --- !u!114 &794233927817298441
 MonoBehaviour:
   m_ObjectHideFlags: 0

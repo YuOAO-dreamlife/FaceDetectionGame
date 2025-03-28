@@ -126,15 +126,29 @@ public class QuizGenerator : MonoBehaviour
         }
     }
 
+    void CheckAnswer(string answer)
+    {
+        if (answer == "Right" && _rightAnsCorrect || answer == "Left" && _leftAnsCorrect)
+        {
+            GameManager.Instance.MissionComplete();
+            Debug.Log("Correct");
+            StartCoroutine(TransformUtil.ScaleObject((answer == "Right") ? _correctR : _correctL, 0, 1, 1));
+        }
+        else
+        {
+            GameManager.Instance.MissionFailed();
+            Debug.Log("Wrong");
+            StartCoroutine(TransformUtil.ScaleObject((answer == "Right") ? _wrongR : _wrongL, 0, 1, 1));
+        }
+    }
+
     void OnEnable()
     {
-        _eyeController.OnEyeLookInRight += CheckRightAnswer;
-        _eyeController.OnEyeLookInLeft += CheckLeftAnswer;
+        _eyeController.OnEyeLookIn += CheckAnswer;
     }
 
     void OnDisable()
     {
-        _eyeController.OnEyeLookInRight -= CheckRightAnswer;
-        _eyeController.OnEyeLookInLeft -= CheckLeftAnswer;
+        _eyeController.OnEyeLookIn -= CheckAnswer;
     }
 }

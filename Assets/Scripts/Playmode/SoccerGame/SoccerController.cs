@@ -1,24 +1,28 @@
+using System.Collections;
 using UnityEngine;
 
 public class SoccerController : MonoBehaviour
 {
-    private bool _isFading = false;
-
     void FixedUpdate()
     {
         if (gameObject.transform.position.y < -1)
         {
-            Destroy(gameObject);
+            SoccerDisappear();
         }
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!_isFading && collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            _isFading = true;
-            StartCoroutine(MaterialUtil.FadeOutAndDestroy(gameObject, 0.5f));
+            StartCoroutine(FadingAndDeactive());
         }
+    }
+
+    IEnumerator FadingAndDeactive()
+    {
+        yield return StartCoroutine(MaterialUtil.FadeOut(gameObject, 0.5f));
+        SoccerDisappear();
     }
 
     void OnTriggerEnter(Collider other)
@@ -31,7 +35,10 @@ public class SoccerController : MonoBehaviour
 
     void SoccerDisappear()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        MaterialUtil.SetToFullOpacity(gameObject);
     }
 
     void OnEnable()

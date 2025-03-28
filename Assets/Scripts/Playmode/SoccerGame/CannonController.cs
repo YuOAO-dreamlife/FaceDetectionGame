@@ -1,14 +1,13 @@
 using System;
+using System.Collections;
 using LazySquirrelLabs.MinMaxRangeAttribute;
 using UnityEngine;
 
 public class CannonController : MonoBehaviour
 {
-    [SerializeField] private GameObject _soccer;
     [SerializeField] private GameObject _rotateStage;
     [SerializeField] private GameObject _generatePos;
     [SerializeField] private GameObject _shootEffectPos;
-    [SerializeField] private GameObject _shootEffect;
     [SerializeField] private float _rotateSpeed = 10;
     [SerializeField, MinMaxRange(0, 20)] private Vector2Int _fireForceRange;
     [SerializeField, MinMaxRange(0.5f, 2.0f)] private Vector2 _durationRange;
@@ -68,10 +67,16 @@ public class CannonController : MonoBehaviour
 
     void FireTheSoccer()
     {
-        GameObject soccerClone = Instantiate(_soccer, _generatePos.transform.position, Quaternion.identity);
+        GameObject soccerClone = ObjectPooler.Instance.SpawnFromPool("Soccer", _generatePos.transform.position, Quaternion.identity);
         soccerClone.GetComponent<Rigidbody>().AddForce(_shootEffectPos.transform.forward * _fireForce, ForceMode.Impulse);
-        GameObject effectGenerate = Instantiate(_shootEffect, _shootEffectPos.transform.position, Quaternion.LookRotation(_shootEffectPos.transform.forward));
-        Destroy(effectGenerate, 1.5f);
+        GameObject effectGenerate = ObjectPooler.Instance.SpawnFromPool("ShootEffect", _shootEffectPos.transform.position, Quaternion.LookRotation(_shootEffectPos.transform.forward));
+        StartCoroutine(DeactivateAfterDelay(effectGenerate, 1.5f));
+    }
+
+    IEnumerator DeactivateAfterDelay(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        obj.SetActive(false);
     }
 
     void OnEnable()

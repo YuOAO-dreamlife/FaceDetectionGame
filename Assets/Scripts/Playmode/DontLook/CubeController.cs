@@ -9,15 +9,21 @@ public class CubeController : MonoBehaviour
     [SerializeField] private float _frequency = 1f;
     [SerializeField] private float _rotateTime;
     private Vector3 _initialPosition;
-    private Quaternion _initialRotation;
+    [SerializeField] private int _clearTimes = 3;
+    private int _currentTime = 1;
 
     [SerializeField] private Transform[] _raycastOrigins;
-    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private LayerMask _uiLayerMask;
+    [SerializeField] private LayerMask _objLayerMask;
     [SerializeField] private List<string> _detectedDirections = new List<string>();
     [SerializeField] private List<GameObject> _detectedFaces = new List<GameObject>();
+    [SerializeField] private List<GameObject> _detectedFaceObjects = new List<GameObject>();
     [SerializeField] private List<Image> _directionImages = new List<Image>();
+    [SerializeField] private Image _successImg;
+    [SerializeField] private Image _failedImg;
     private float _rayDistance = 3.5f;
 
+    [SerializeField] private HeadRotateController _headRotateController;
     [SerializeField] private GameObject _front;
     [SerializeField] private GameObject _back;
     [SerializeField] private GameObject _top;
@@ -30,12 +36,13 @@ public class CubeController : MonoBehaviour
     [SerializeField] private Transform[] _raycastBottomOrigins;
     [SerializeField] private Transform[] _raycastLeftOrigins;
     [SerializeField] private Transform[] _raycastRightOrigins;
+
+    private bool _rotating = true;
     
     void Start()
     {
         _initialPosition = transform.position;
-        _initialRotation = transform.rotation;
-        StartRotateCube();
+        // StartRotateCube();
     }
 
     void Update()
@@ -49,10 +56,6 @@ public class CubeController : MonoBehaviour
         float offsetX = _amplitude * Mathf.Sin(Time.time * _frequency);
         float offsetZ = _amplitude * Mathf.Cos(Time.time * _frequency);
         transform.position = _initialPosition + new Vector3(offsetX, 0, offsetZ);
-
-        // // 輕微旋轉
-        // float angle = _amplitude * 10 * Mathf.Sin(Time.time * _frequency);
-        // transform.rotation = _initialRotation * Quaternion.Euler(0, 0, angle);
     }
 
     void StartRotateCube()
@@ -62,6 +65,7 @@ public class CubeController : MonoBehaviour
 
     IEnumerator RotateCube()
     {
+        _rotating = true;
         // 嘗試旋轉到含有指定的方向數量
         GameManager.Instance.SetCurrentTime(99);
         do
@@ -81,25 +85,29 @@ public class CubeController : MonoBehaviour
             yield return StartCoroutine(RandomRotateX(_right));
 
             DetectDirection();
-        } while (_detectedDirections.Count == 4 || _detectedDirections.Count == 1);
+        } while (_detectedDirections.Count == 4);
 
         AppearDirections();
 
         // 已完成旋轉，開始正式計時
         GameManager.Instance.SetCurrentTimeToUIData();
-        
+        _rotating = false;
     }
 
     void DetectRotateCubes(Transform[] raycastOrigins, GameObject pivot)
     {
-        foreach (Transform origin in raycastOrigins)
+        for (int i = 0; i < raycastOrigins.Length; i++)
         {
-            Ray ray = new Ray(origin.position, origin.forward);
+            Ray ray = new Ray(raycastOrigins[i].position, raycastOrigins[i].forward);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, _rayDistance, _layerMask))
+            if (Physics.Raycast(ray, out hit, _rayDistance, _objLayerMask))
             {
-                hit.collider.transform.parent.SetParent(pivot.transform);
+                hit.collider.transform.SetParent(pivot.transform);
+            }
+            else
+            {
+                i--; // 未偵測成功，重新偵測一次
             }
         }
     }
@@ -146,7 +154,7 @@ public class CubeController : MonoBehaviour
             Ray ray = new Ray(origin.position, origin.forward);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, _rayDistance, _layerMask))
+            if (Physics.Raycast(ray, out hit, _rayDistance, _uiLayerMask))
             {
                 GameObject direction = hit.collider.gameObject;
                 if (!_detectedDirections.Contains(direction.name) && direction.name != "None")
@@ -155,6 +163,12 @@ public class CubeController : MonoBehaviour
                     Debug.Log("新增方向：" + direction.name);
                 }
                 _detectedFaces.Add(direction);
+            }
+
+            if (Physics.Raycast(ray, out hit, _rayDistance, _objLayerMask))
+            {
+                GameObject cube = hit.collider.gameObject;
+                _detectedFaceObjects.Add(cube);
             }
         }
     }
@@ -171,6 +185,21 @@ public class CubeController : MonoBehaviour
         }
     }
 
+    void ChangeDetectedFacesColor(Color color)
+    {
+        foreach (GameObject cube in _detectedFaceObjects)
+        {
+            Material[] materials = cube.GetComponent<MeshRenderer>().materials;
+            foreach (Material mat in materials)
+            {
+                if (mat.color != Color.black)
+                {
+                    mat.color = color;
+                }
+            }
+        }
+    }
+
     void DisappearDirections()
     {
         for (int index = 0; index < _directionImages.Count; index++)
@@ -182,13 +211,44 @@ public class CubeController : MonoBehaviour
         }
     }
 
+    void CheckAnswer(string answer)
+    {
+        if (!_rotating)
+        {
+            Debug.Log("Check");
+            DisappearDirections();
+            if (_detectedDirections.Contains(answer))
+            {
+                ChangeDetectedFacesColor(Color.red);
+                _failedImg.color = new Color(_failedImg.color.r, _failedImg.color.g, _failedImg.color.b, 255);
+                GameManager.Instance.MissionFailed();
+            }
+            else
+            {
+                if (_currentTime < _clearTimes)
+                {
+                    _currentTime++;    
+                    StartRotateCube();
+                }
+                else
+                {
+                    ChangeDetectedFacesColor(Color.green);
+                    _successImg.color = new Color(_successImg.color.r, _successImg.color.g, _successImg.color.b, 255);
+                    GameManager.Instance.MissionComplete();
+                }
+            }
+        }
+    }
+
     void OnEnable()
     {
         GameManager.Instance.OnMissionStart += StartRotateCube;
+        _headRotateController.OnHeadRotate += CheckAnswer;
     }
 
     void OnDisable()
     {
         GameManager.Instance.OnMissionStart -= StartRotateCube;
+        _headRotateController.OnHeadRotate -= CheckAnswer;
     }
 }

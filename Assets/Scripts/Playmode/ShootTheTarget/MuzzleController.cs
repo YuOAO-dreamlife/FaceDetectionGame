@@ -1,9 +1,9 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class MuzzleController : HeadTransformController
 {
-    [SerializeField] private GameObject _impactEffect;
     [SerializeField] private float _fireRate;
     private float _nextFire = 0;
 
@@ -25,14 +25,20 @@ public class MuzzleController : HeadTransformController
         RaycastHit hitInfo;
         if (Physics.Raycast(transform.position, Vector3.forward, out hitInfo))
         {
-            GameObject impactGenerate = Instantiate(_impactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+            GameObject impactGenerate = ObjectPooler.Instance.SpawnFromPool("Effect", hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
 
             if (hitInfo.collider.CompareTag("Target"))
             {
                 ShootTheTarget?.Invoke(hitInfo.collider.gameObject);
             }
 
-            Destroy(impactGenerate, 1.5f);
+            StartCoroutine(FadingAndDeactive(impactGenerate));
         }
+    }
+
+    IEnumerator FadingAndDeactive(GameObject _gameObject)
+    {
+        yield return new WaitForSeconds(1.5f);
+        _gameObject.SetActive(false);
     }
 }

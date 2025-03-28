@@ -651,6 +651,57 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1123666952}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1334850346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1334850348}
+  - component: {fileID: 1334850347}
+  m_Layer: 0
+  m_Name: ObjectPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1334850347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334850346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1a08dc93a342ae438da10d472109378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: Soccer
+    prefab: {fileID: 1428747000372343260, guid: 27234e322d0da6e4194168efec765374, type: 3}
+    counts: 3
+  - tag: ShootEffect
+    prefab: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
+    counts: 1
+--- !u!4 &1334850348
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334850346}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1555271234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,13 +1145,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9297c442ef88f04f84c7dbcd5c67581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soccer: {fileID: 1428747000372343260, guid: 27234e322d0da6e4194168efec765374, type: 3}
   _rotateStage: {fileID: 4325591410040978165}
   _generatePos: {fileID: 778715666}
   _shootEffectPos: {fileID: 1556155421}
-  _shootEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
   _rotateSpeed: 10
-  _fireForceRange: {x: 8, y: 11}
+  _fireForceRange: {x: 10, y: 13}
   _durationRange: {x: 1.567123, y: 2}
 --- !u!23 &1116351253298612870
 MeshRenderer:
@@ -2577,3 +2626,4 @@ SceneRoots:
   - {fileID: 5117118112238250554}
   - {fileID: 3401936553375647102}
   - {fileID: 601064678}
+  - {fileID: 1334850348}

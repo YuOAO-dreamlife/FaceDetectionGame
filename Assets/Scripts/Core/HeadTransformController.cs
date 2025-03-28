@@ -34,8 +34,8 @@ public abstract class HeadTransformController : MonoBehaviour
         }
     }
 
+    public event Action<string> OnEyeLookIn;
     private bool _eyeLookInLeft;
-    public event Action OnEyeLookInLeft;
     protected bool EyeLookInLeft
     {
         get { return _eyeLookInLeft; }
@@ -46,14 +46,12 @@ public abstract class HeadTransformController : MonoBehaviour
                 _eyeLookInLeft = value;
                 if (_eyeLookInLeft)
                 {
-                    OnEyeLookInLeft?.Invoke();
+                    OnEyeLookIn?.Invoke("Left");
                 }
             }
         }
     }
-
     private bool _eyeLookInRight;
-    public event Action OnEyeLookInRight;
     protected bool EyeLookInRight
     {
         get { return _eyeLookInRight; }
@@ -64,14 +62,17 @@ public abstract class HeadTransformController : MonoBehaviour
                 _eyeLookInRight = value;
                 if (_eyeLookInRight)
                 {
-                    OnEyeLookInRight?.Invoke();
+                    OnEyeLookIn?.Invoke("Right");
                 }
             }
         }
     }
 
+    [SerializeField] private float _rotateAngle;
+    [SerializeField] private float _rotateJudgeAngleRange = 30;
+
+    public event Action<string> OnHeadRotate;
     private bool _headRotateLeft;
-    public event Action OnHeadRotateLeft;
     protected bool HeadRotateLeft
     {
         get { return _headRotateLeft; }
@@ -82,7 +83,56 @@ public abstract class HeadTransformController : MonoBehaviour
                 _headRotateLeft = value;
                 if (_headRotateLeft)
                 {
-                    OnHeadRotateLeft?.Invoke();
+                    OnHeadRotate?.Invoke("Left");
+                }
+            }
+        }
+    }
+    private bool _headRotateRight;
+    protected bool HeadRotateRight
+    {
+        get { return _headRotateRight; }
+        private set
+        {
+            if (_headRotateRight != value)
+            {
+                _headRotateRight = value;
+                if (_headRotateRight)
+                {
+                    OnHeadRotate?.Invoke("Right");
+                }
+            }
+        }
+    }
+    private bool _headRotateUp;
+    protected bool HeadRotateUp
+    {
+        get { return _headRotateUp; }
+        private set
+        {
+            if (_headRotateUp != value)
+            {
+                _headRotateUp = value;
+                if (_headRotateUp)
+                {
+                    OnHeadRotate?.Invoke("Up");
+                }
+            }
+        }
+    }
+    private bool _headRotateDown;
+    protected bool HeadRotateDown
+    {
+        get { return _headRotateDown; }
+        private set
+        {
+            if (_headRotateDown != value)
+            {
+                _headRotateDown = value;
+                if (_headRotateDown)
+                {
+                    Debug.Log("D");
+                    OnHeadRotate?.Invoke("Down");
                 }
             }
         }
@@ -111,11 +161,14 @@ public abstract class HeadTransformController : MonoBehaviour
 
     protected void RotateHead()
     {
-        Vector3 leftEar = new Vector3(_landmarkInfo.LeftEarLandmark.x, 1 - _landmarkInfo.LeftEarLandmark.y, _landmarkInfo.LeftEarLandmark.z);
+        Vector3 leftEar = new Vector3(_landmarkInfo.LeftEarLandmark.x, 1 - _landmarkInfo.LeftEarLandmark.y, _landmarkInfo.LeftEarLandmark.z); // Unity 跟 Mediapipe 的Y軸座標相反
         Vector3 rightEar = new Vector3(_landmarkInfo.RightEarLandmark.x, 1 - _landmarkInfo.RightEarLandmark.y, _landmarkInfo.RightEarLandmark.z);
         Vector3 noseTip = new Vector3(_landmarkInfo.NoseTipLandmark.x, 1 - _landmarkInfo.NoseTipLandmark.y, _landmarkInfo.NoseTipLandmark.z);
         Vector3 headPos = (leftEar + rightEar) / 2;
-        Quaternion currentHeadRot = Quaternion.LookRotation(noseTip - headPos, Vector3.Cross(noseTip - rightEar, noseTip - leftEar));
+
+        // noseTip - headPos 表示玩家(臉部)物件向前(Z軸)的方向
+        // Vector3.Cross(noseTip - rightEar, noseTip - leftEar) 是為了要獲取向上(Y軸)的方向
+        Quaternion currentHeadRot = Quaternion.LookRotation(noseTip - headPos, Vector3.Cross(noseTip - rightEar, noseTip - leftEar));  
         transform.rotation = Quaternion.Slerp(transform.rotation, currentHeadRot, _rotationSmoothSpeed * Time.deltaTime);
     }
 
@@ -134,11 +187,27 @@ public abstract class HeadTransformController : MonoBehaviour
         EyeLookInRight =  _landmarkInfo.eyeLookInRight;
     }
 
-    // protected void CheckHeadRotateLeftOrNot()
-    // {
-    //     if (transform.rotation.y <)
-    //     {
-            
-    //     }
-    // }
+    protected void CheckHeadRotateLeftOrNot()
+    {
+        float currentHeadYAngle = transform.eulerAngles.y - 180;
+        HeadRotateLeft = (currentHeadYAngle > _rotateAngle && currentHeadYAngle < (_rotateAngle + _rotateJudgeAngleRange)) ? true : false;
+    }
+
+    protected void CheckHeadRotateRightOrNot()
+    {
+        float currentHeadYAngle = 180 - transform.eulerAngles.y;
+        HeadRotateRight = (currentHeadYAngle > _rotateAngle && currentHeadYAngle < (_rotateAngle + _rotateJudgeAngleRange)) ? true : false;
+    }
+
+    protected void CheckHeadRotateUpOrNot()
+    {
+        float currentHeadXAngle = 360 - transform.eulerAngles.x;
+        HeadRotateUp = (currentHeadXAngle > _rotateAngle && currentHeadXAngle < (_rotateAngle + _rotateJudgeAngleRange)) ? true : false;
+    }
+
+    protected void CheckHeadRotateDownOrNot()
+    {
+        float currentHeadXAngle = transform.eulerAngles.x - 0;
+        HeadRotateDown = (currentHeadXAngle > _rotateAngle && currentHeadXAngle < (_rotateAngle + _rotateJudgeAngleRange)) ? true : false;
+    }
 }

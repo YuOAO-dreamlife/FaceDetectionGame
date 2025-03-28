@@ -26,7 +26,7 @@ public class UIResultState : UIStateBase
         if (GameManager.Instance.MissionFailure)
         {
             _manager.ScreenEmotion.GetComponent<Image>().sprite = _failedEmotions[_failedRandom];
-            int currentLiveIndex = 4 - GameManager.Instance.LifeCount;
+            int currentLiveIndex = GameManager.Instance.OriginalLifeCount - GameManager.Instance.LifeCount;
             _manager.LifeUI[currentLiveIndex].GetComponent<Image>().sprite = _manager.LifeUIDead;
             yield return TransformUtil.ScaleObject(_manager.LifeUI[currentLiveIndex], 3.0f, 1.5f, 0.2f);
             GameManager.Instance.LoseALife();

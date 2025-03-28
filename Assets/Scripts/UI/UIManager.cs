@@ -47,6 +47,10 @@ public class UIManager : MonoBehaviour
             _leftTimeText.SetActive(true);
             _leftTimeText.GetComponent<TMP_Text>().text = "The left time of the mission... " + currentTime.ToString() + "...";
         }
+        else
+        {
+            _leftTimeText.SetActive(false);
+        }
     }
 
     void InitUIElements()
