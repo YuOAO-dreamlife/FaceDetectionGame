@@ -174,17 +174,18 @@ public abstract class HeadTransformController : MonoBehaviour
 
     protected void CheckEyeBlinkOrNot()
     {
-        EyeBlink = _landmarkInfo.eyeBlink;
+        EyeBlink = _landmarkInfo.BlendshapesBool["eyeBlinkLeft"];
+        EyeBlink = _landmarkInfo.BlendshapesBool["eyeBlinkRight"];
     }
 
     protected void CheckEyeLookLeftOrNot()
     {
-        EyeLookInLeft = _landmarkInfo.eyeLookInLeft;
+        EyeLookInLeft = _landmarkInfo.BlendshapesBool["eyeLookInLeft"];
     }
 
     protected void CheckEyeLookRightOrNot()
     {
-        EyeLookInRight =  _landmarkInfo.eyeLookInRight;
+        EyeLookInRight =  _landmarkInfo.BlendshapesBool["eyeLookInRight"];
     }
 
     protected void CheckHeadRotateLeftOrNot()
@@ -209,5 +210,14 @@ public abstract class HeadTransformController : MonoBehaviour
     {
         float currentHeadXAngle = transform.eulerAngles.x - 0;
         HeadRotateDown = (currentHeadXAngle > _rotateAngle && currentHeadXAngle < (_rotateAngle + _rotateJudgeAngleRange)) ? true : false;
+    }
+
+    protected void ChangeFaceEmotions(SkinnedMeshRenderer skinnedMesh)
+    {
+        foreach (var item in _landmarkInfo.BlendshapesWeight)
+        {
+            int blendshapeIndex = skinnedMesh.sharedMesh.GetBlendShapeIndex(item.Key);
+            skinnedMesh.SetBlendShapeWeight(blendshapeIndex, item.Value*100);
+        }
     }
 }

@@ -11,9 +11,10 @@ public class RuntimeSceneLoader : ISceneLoader
     public void PreloadNextScene()
     {
         int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        int lastGameSceneIndex = SceneManager.sceneCountInBuildSettings - 3;
-        _currentNextGameSceneIndex = nextIndex > lastGameSceneIndex ? 1 : nextIndex;
-        _preloadNextScene = SceneManager.LoadSceneAsync(_currentNextGameSceneIndex);
+        // int lastGameSceneIndex = SceneManager.sceneCountInBuildSettings - 3;
+        // _currentNextGameSceneIndex = nextIndex > lastGameSceneIndex ? 1 : nextIndex;
+        // _preloadNextScene = SceneManager.LoadSceneAsync(_currentNextGameSceneIndex);
+        _preloadNextScene = SceneManager.LoadSceneAsync(nextIndex);
         _preloadNextScene.allowSceneActivation = false;
     }
 

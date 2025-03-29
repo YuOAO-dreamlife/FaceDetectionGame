@@ -159,10 +159,63 @@ namespace Mediapipe.Unity.Sample.FaceLandmarkDetection
       }
     }
 
-    public bool eyeLookInLeft;
-    public bool eyeLookInRight;
-    public bool eyeBlink;
-    private float normal = 0.5f;
+    private Dictionary<string, float> BlendshapesStandard = new Dictionary<string, float>()
+    {
+      ["browDownLeft"] = 0.5f,
+      ["browDownRight"] = 0.5f,
+      ["browInnerUp"] = 0.3f,
+      ["browOuterUpLeft"] = 0.3f,
+      ["browOuterUpRight"] = 0.3f,
+      ["cheekPuff"] = 0.2f,
+      ["cheekSquintLeft"] = 0.6f,
+      ["cheekSquintRight"] = 0.6f,
+      ["eyeBlinkLeft"] = 0.5f,
+      ["eyeBlinkRight"] = 0.5f,
+      ["eyeLookDownLeft"] = 0.4f,
+      ["eyeLookDownRight"] = 0.4f,
+      ["eyeLookInLeft"] = 0.5f,
+      ["eyeLookInRight"] = 0.5f,
+      ["eyeLookOutLeft"] = 0.5f,
+      ["eyeLookOutRight"] = 0.5f,
+      ["eyeLookUpLeft"] = 0.4f,
+      ["eyeLookUpRight"] = 0.4f,
+      ["eyeSquintLeft"] = 0.6f,
+      ["eyeSquintRight"] = 0.6f,
+      ["eyeWideLeft"] = 0.6f,
+      ["eyeWideRight"] = 0.6f,
+      ["jawForward"] = 0.3f,
+      ["jawLeft"] = 0.3f,
+      ["jawOpen"] = 0.4f,
+      ["jawRight"] = 0.3f,
+      ["mouthClose"] = 0.5f,
+      ["mouthDimpleLeft"] = 0.5f,
+      ["mouthDimpleRight"] = 0.5f,
+      ["mouthFrownLeft"] = 0.5f,
+      ["mouthFrownRight"] = 0.5f,
+      ["mouthFunnel"] = 0.4f,
+      ["mouthLeft"] = 0.4f,
+      ["mouthLowerDownLeft"] = 0.4f,
+      ["mouthLowerDownRight"] = 0.4f,
+      ["mouthPressLeft"] = 0.4f,
+      ["mouthPressRight"] = 0.4f,
+      ["mouthPucker"] = 0.4f,
+      ["mouthRight"] = 0.4f,
+      ["mouthRollLower"] = 0.5f,
+      ["mouthRollUpper"] = 0.5f,
+      ["mouthShrugLower"] = 0.5f,
+      ["mouthShrugUpper"] = 0.5f,
+      ["mouthSmileLeft"] = 0.5f,
+      ["mouthSmileRight"] = 0.5f,
+      ["mouthStretchLeft"] = 0.4f,
+      ["mouthStretchRight"] = 0.4f,
+      ["mouthUpperUpLeft"] = 0.4f,
+      ["mouthUpperUpRight"] = 0.4f,
+      ["noseSneerLeft"] = 0.3f,
+      ["noseSneerRight"] = 0.3f
+    };
+    public Dictionary<string, bool> BlendshapesBool = new Dictionary<string, bool>();
+    public Dictionary<string, float> BlendshapesWeight = new Dictionary<string, float>();
+    public string categoryDetails = "";
 
     private void OnFaceLandmarkDetectionOutput(FaceLandmarkerResult result, Image image, long timestamp)
     {
@@ -172,28 +225,24 @@ namespace Mediapipe.Unity.Sample.FaceLandmarkDetection
 
       foreach (Classifications classifications in result.faceBlendshapes)
       {
+        categoryDetails = "";
         foreach (Category cat in classifications.categories)
         {
-          switch (cat.categoryName)
+          BlendshapesWeight[cat.categoryName] = cat.score;
+          if (cat.categoryName == "_neutral")
           {
-            case "eyeLookInLeft":
-              if (cat.score > normal) eyeLookInLeft = true;
-              else eyeLookInLeft = false;
-              break;
-
-            case "eyeLookInRight":
-              if (cat.score > normal) eyeLookInRight = true;
-              else eyeLookInRight = false;
-              break;
-
-            case "eyeBlinkLeft":
-            case "eyeBlinkRight":
-              if (cat.score > normal) eyeBlink = true;
-              else eyeBlink = false;
-              break;
+            continue;
+          }
+          if (cat.score > BlendshapesStandard[cat.categoryName]) 
+          {
+            BlendshapesBool[cat.categoryName] = true;
+            categoryDetails += cat.index + ". " + cat.categoryName + " - " + cat.score + "\n";
+          }
+          else 
+          {
+            BlendshapesBool[cat.categoryName] = false;
           }
         }
-        // Debug.Log("LookLeft: " + eyeLookInLeft + "\nLookRight: " + eyeLookInRight);
       }
 
       foreach (var normalizedLandmarks in result.faceLandmarks)

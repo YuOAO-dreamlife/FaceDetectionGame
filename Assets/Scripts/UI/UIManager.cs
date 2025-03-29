@@ -64,6 +64,7 @@ public class UIManager : MonoBehaviour
                 LevelText.GetComponent<TMP_Text>().text = "Face the camera";
                 break;
 
+            case "MissionsComplete":
             case "GameOver":
                 LevelText.GetComponent<TMP_Text>().text = "Result\nLevel " + GameManager.Instance.PassedMissionCount;
                 break;
@@ -100,6 +101,10 @@ public class UIManager : MonoBehaviour
         {
             case "TitleScreen":
                 ChangeState(new TitleScreenState(this));
+                break;
+
+            case "MissionsComplete":
+                ChangeState(new CompleteState(this));
                 break;
 
             case "GameOver":

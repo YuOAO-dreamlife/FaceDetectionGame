@@ -20,6 +20,7 @@ public abstract class UIStateBase
     protected AudioClip _successSoundtrack = Resources.Load<AudioClip>("Soundtracks/Success");
     protected AudioClip _failedSoundtrack = Resources.Load<AudioClip>("Soundtracks/Failed");
     protected AudioClip _gameOverSoundtrack = Resources.Load<AudioClip>("Soundtracks/GameOver");
+    protected AudioClip _completeSoundtrack = Resources.Load<AudioClip>("Soundtracks/Complete");
 
     public UIStateBase(UIManager manager)
     {

@@ -214,7 +214,8 @@ public class GameManager : MonoBehaviour
     void AddMissionCount()
     {
         if (
-            SceneManager.GetActiveScene().name != "GameOver" 
+            SceneManager.GetActiveScene().name != "MissionsComplete"
+            && SceneManager.GetActiveScene().name != "GameOver" 
             && SceneManager.GetActiveScene().name != "TitleScreen"
             && SceneManager.GetActiveScene().name != "Credits"
         )
@@ -350,6 +351,10 @@ public class GameManager : MonoBehaviour
                 {
                     SceneLoader.SwitchToNextScene();
                 }
+                break;
+
+            case "MissionsComplete":
+                SceneLoader.SwitchToTitleScreen();
                 break;
 
             case "GameOver":
