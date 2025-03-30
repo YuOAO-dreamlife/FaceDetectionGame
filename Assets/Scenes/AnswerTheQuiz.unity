@@ -172,6 +172,8 @@ MonoBehaviour:
   UIHeight: 0
   _moveSmoothTime: 0
   _rotationSmoothSpeed: 30
+  _rotateAngle: 0
+  _rotateJudgeAngleRange: 30
 --- !u!1 &589556112
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,10 +300,6 @@ MonoBehaviour:
   _wrongR: {fileID: 1950084920}
   _correctL: {fileID: 865187571}
   _wrongL: {fileID: 2027668887}
-  _quizStrings:
-  - "\u54EA\u500B\u6BD4\u8F03\u5927"
-  - "\u54EA\u500B\u6BD4\u8F03\u5C0F"
-  _operators: 2b002d00d700
 --- !u!1 &649251657
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,10 +848,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u54EA\u500B\u6BD4\u8F03\u5C0F"
+  m_text: "\u54EA\u500B\u6BD4\u8F03\u5927"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f36629c97b9574469184c1e89fda4cd, type: 2}
-  m_sharedMaterial: {fileID: -8839773574251196160, guid: 9f36629c97b9574469184c1e89fda4cd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bf2d1a250ce7c124e8563ba4c9cd6c0b, type: 2}
+  m_sharedMaterial: {fileID: 1306012458190765372, guid: bf2d1a250ce7c124e8563ba4c9cd6c0b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: AnswerTheQuiz
   m_EditorClassIdentifier: 
   InstructionImage: {fileID: 21300000, guid: b67d0243e0611c04f912280934927e9b, type: 3}
-  InstructionText: "\u773C\u775B\u5411\u5DE6\u6216\u5411\u53F3\u770B\uFF0C\u4EE5\u9078\u64C7\u9078\u9805"
+  InstructionText: "\u9762\u5411\u93E1\u982D\uFF0C\u773C\u73E0\u5411\u5DE6\u6216\u5411\u53F3\u79FB\uFF0C\u4EE5\u9078\u64C7\u9078\u9805"
   HintText: "\u56DE\u7B54\u984C\u76EE!"

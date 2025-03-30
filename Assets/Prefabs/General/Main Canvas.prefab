@@ -65,10 +65,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f36629c97b9574469184c1e89fda4cd, type: 2}
-  m_sharedMaterial: {fileID: -8839773574251196160, guid: 9f36629c97b9574469184c1e89fda4cd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bf2d1a250ce7c124e8563ba4c9cd6c0b, type: 2}
+  m_sharedMaterial: {fileID: 1306012458190765372, guid: bf2d1a250ce7c124e8563ba4c9cd6c0b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -445,8 +445,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f36629c97b9574469184c1e89fda4cd, type: 2}
-  m_sharedMaterial: {fileID: -8839773574251196160, guid: 9f36629c97b9574469184c1e89fda4cd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bf2d1a250ce7c124e8563ba4c9cd6c0b, type: 2}
+  m_sharedMaterial: {fileID: 1306012458190765372, guid: bf2d1a250ce7c124e8563ba4c9cd6c0b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2544,7 +2544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4099989809828940606
 RectTransform:
   m_ObjectHideFlags: 0

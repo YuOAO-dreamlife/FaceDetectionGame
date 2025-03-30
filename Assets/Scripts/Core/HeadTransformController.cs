@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class HeadTransformController : MonoBehaviour
 {
     [Header("Necessary Components")]
-    [SerializeField] private FaceLandmarkerRunner _landmarkInfo;
+    [SerializeField] protected FaceLandmarkerRunner _landmarkInfo;
     [SerializeField] private Camera _mainCamera;
 
     private int CameraToUIOffset;

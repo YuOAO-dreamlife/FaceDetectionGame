@@ -179,7 +179,7 @@ public class CubeController : MonoBehaviour
         {
             if (_detectedFaces[index].name != "None")
             {
-                _directionImages[index].sprite = Resources.Load<Sprite>("Sprites/Gameplay/" + _detectedFaces[index].name);
+                _directionImages[index].sprite = Resources.Load<Sprite>("Sprites/Gameplay/DontLook/" + _detectedFaces[index].name);
                 _directionImages[index].color = new Color(_directionImages[index].color.r, _directionImages[index].color.g, _directionImages[index].color.b, 255);
             }
         }

@@ -428,6 +428,8 @@ MonoBehaviour:
   UIHeight: 0
   _moveSmoothTime: 0.05
   _rotationSmoothSpeed: 0
+  _rotateAngle: 0
+  _rotateJudgeAngleRange: 30
   _renderer: {fileID: 1327768157892701655}
   _huhFace: {fileID: 2100000, guid: c791e232f75ef0c4cae24ab5837786c9, type: 2}
   _failedAnimationDuration: 1
@@ -1149,7 +1151,7 @@ MonoBehaviour:
   _generatePos: {fileID: 778715666}
   _shootEffectPos: {fileID: 1556155421}
   _rotateSpeed: 10
-  _fireForceRange: {x: 10, y: 13}
+  _fireForceRange: {x: 12, y: 15}
   _durationRange: {x: 1.567123, y: 2}
 --- !u!23 &1116351253298612870
 MeshRenderer:

@@ -161,8 +161,8 @@ namespace Mediapipe.Unity.Sample.FaceLandmarkDetection
 
     private Dictionary<string, float> BlendshapesStandard = new Dictionary<string, float>()
     {
-      ["browDownLeft"] = 0.5f,
-      ["browDownRight"] = 0.5f,
+      ["browDownLeft"] = 0.4f,
+      ["browDownRight"] = 0.4f,
       ["browInnerUp"] = 0.3f,
       ["browOuterUpLeft"] = 0.3f,
       ["browOuterUpRight"] = 0.3f,
@@ -181,17 +181,17 @@ namespace Mediapipe.Unity.Sample.FaceLandmarkDetection
       ["eyeLookUpRight"] = 0.4f,
       ["eyeSquintLeft"] = 0.6f,
       ["eyeSquintRight"] = 0.6f,
-      ["eyeWideLeft"] = 0.6f,
-      ["eyeWideRight"] = 0.6f,
+      ["eyeWideLeft"] = 0.025f,
+      ["eyeWideRight"] = 0.025f,
       ["jawForward"] = 0.3f,
       ["jawLeft"] = 0.3f,
-      ["jawOpen"] = 0.4f,
+      ["jawOpen"] = 0.2f,
       ["jawRight"] = 0.3f,
       ["mouthClose"] = 0.5f,
       ["mouthDimpleLeft"] = 0.5f,
       ["mouthDimpleRight"] = 0.5f,
-      ["mouthFrownLeft"] = 0.5f,
-      ["mouthFrownRight"] = 0.5f,
+      ["mouthFrownLeft"] = 0.1f,
+      ["mouthFrownRight"] = 0.1f,
       ["mouthFunnel"] = 0.4f,
       ["mouthLeft"] = 0.4f,
       ["mouthLowerDownLeft"] = 0.4f,
@@ -204,8 +204,8 @@ namespace Mediapipe.Unity.Sample.FaceLandmarkDetection
       ["mouthRollUpper"] = 0.5f,
       ["mouthShrugLower"] = 0.5f,
       ["mouthShrugUpper"] = 0.5f,
-      ["mouthSmileLeft"] = 0.5f,
-      ["mouthSmileRight"] = 0.5f,
+      ["mouthSmileLeft"] = 0.1f,
+      ["mouthSmileRight"] = 0.1f,
       ["mouthStretchLeft"] = 0.4f,
       ["mouthStretchRight"] = 0.4f,
       ["mouthUpperUpLeft"] = 0.4f,
@@ -228,20 +228,21 @@ namespace Mediapipe.Unity.Sample.FaceLandmarkDetection
         categoryDetails = "";
         foreach (Category cat in classifications.categories)
         {
-          BlendshapesWeight[cat.categoryName] = cat.score;
           if (cat.categoryName == "_neutral")
           {
             continue;
           }
+          BlendshapesWeight[cat.categoryName] = cat.score;
           if (cat.score > BlendshapesStandard[cat.categoryName]) 
           {
             BlendshapesBool[cat.categoryName] = true;
-            categoryDetails += cat.index + ". " + cat.categoryName + " - " + cat.score + "\n";
+            // categoryDetails += cat.index + ". " + cat.categoryName + " - " + cat.score + "\n";
           }
           else 
           {
             BlendshapesBool[cat.categoryName] = false;
           }
+          categoryDetails += cat.index + ". " + cat.categoryName + " - " + cat.score + "\n";
         }
       }
 
